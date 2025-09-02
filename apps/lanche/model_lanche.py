@@ -25,3 +25,10 @@ class Lanche (db_serv.Model):
         }
         
     
+
+def criarLanche(nv_dict):
+    db_serv.session.add(nv_dict)
+    db_serv.session.commit()
+    return {"Descrição": "Lanche criado com êxito!"}, 200
+
+
