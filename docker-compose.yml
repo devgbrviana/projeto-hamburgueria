@@ -1,0 +1,6 @@
+services:
+
+db:
+  image: mysql:8.0
+  restart: always
+  container_name: cont_mysql 
