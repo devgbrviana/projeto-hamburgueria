@@ -10,6 +10,18 @@ class Lanche (db_serv.Model):
     descricao = db_serv.Column(db_serv.Sting(120), nullable=False)
 
 
-    
-    
+    def __init__(self, id, nome, preco, descricao):
+        self.id = id
+        self.nome = nome
+        self.preco = preco
+        self.descricao = descricao
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "nome": self.nome,
+            "preco": self.preco,
+            "descricao": self.descricao
+        }
+        
+    
