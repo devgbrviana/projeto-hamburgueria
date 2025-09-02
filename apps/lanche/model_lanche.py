@@ -32,3 +32,7 @@ def criarLanche(nv_dict):
     return {"Descrição": "Lanche criado com êxito!"}, 200
 
 
+def listarLanche():
+    lanches = Lanche.query.all()
+    print(lanches)
+    return [lanches.to_dict() for lanche in lanches]
