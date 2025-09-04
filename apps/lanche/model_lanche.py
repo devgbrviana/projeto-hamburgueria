@@ -41,6 +41,13 @@ class CadastroDeLancheFalhado(Exception):
         self.msg = msg
         super().__init__(*msg)
 
+class LancheSemId(Exception):
+    def __init__(self, msg="Erro! Preencha o campo 'id' do lanche! "):
+        self.msg = msg
+        super().__init__(*msg)
+
+        
+
 
 
 ### ===== Funções auxiliares ===== ###
