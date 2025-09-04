@@ -46,7 +46,10 @@ class LancheSemId(Exception):
         self.msg = msg
         super().__init__(*msg)
 
-        
+class LancheSemNome(Exception):
+    def __init__(self, msg="Erro! Preencha o campo 'nome' do lanche! "):
+        self.msg = msg
+        super().__init__(*msg)
 
 
 
