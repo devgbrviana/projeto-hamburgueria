@@ -31,7 +31,10 @@ class LancheJaExiste(Exception):
         self.msg = msg
         super().__init__(self.msg)
 
-
+class LancheNaoExiste(Exception):
+    def __init__(self, msg="Erro, o lanche não existe!"):
+        self.msg = msg
+        super().__init__(*msg)
 
 
 # Funções auxiliares:
@@ -45,3 +48,14 @@ def listarLanche():
     lanches = Lanche.query.all()
     print(lanches)
     return [lanches.to_dict() for lanche in lanches]
+
+
+def lancheExiste(id):
+    """
+    Verifica se um lanche já existe, cujo argumento é o Id.
+    Caso lanche retorne None então lanche is not None, receberá False, 
+    caso o contrário True.
+    """
+    lanche = Lanche.query.get(id)
+    return lanche is not None
+        
