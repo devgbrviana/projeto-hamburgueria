@@ -20,13 +20,13 @@ def criar_lanche():
             return jsonify ({"Erro": str(modLan.LancheSemId)}), 400
         
         if not dados_lanche or 'nome' not in dados_lanche:
-            return jsonify({"Erro": str(modLan.LancheSemNome)})
+            return jsonify({"Erro": str(modLan.LancheSemNome)}), 400
         
         if not dados_lanche or 'descricao' not in dados_lanche:
-            return jsonify ({"Erro": str(modLan.LancheSemDescricao)})
+            return jsonify ({"Erro": str(modLan.LancheSemDescricao)}), 400
         
         if not dados_lanche or 'preco' not in dados_lanche:
-            return jsonify ({"Erro": str(modLan.LancheSemPreco)})
+            return jsonify ({"Erro": str(modLan.LancheSemPreco)}), 400
         
         lanche_id = int(dados_lanche["id"])
 
