@@ -42,18 +42,22 @@ class CadastroDeLancheFalhado(Exception):
         super().__init__(*msg)
 
 class LancheSemId(Exception):
-    def __init__(self, msg="Erro! Preencha o campo 'id' do lanche! "):
+    def __init__(self, msg="Erro! Preencha o campo 'Id' do lanche! "):
         self.msg = msg
         super().__init__(*msg)
 
 class LancheSemNome(Exception):
-    def __init__(self, msg="Erro! Preencha o campo 'nome' do lanche! "):
+    def __init__(self, msg="Erro! Preencha o campo 'Nome' do lanche! "):
         self.msg = msg
         super().__init__(*msg)
 
 class LancheSemPreco(Exception):
     def __init__(self, msg="Erro! Preencha o compo 'Preço' do lanche!"):
         self.msg = msg
+        super().__init__(*msg)
+
+class LancheSemDescricao(Exception):
+    def __init__(self, msg="Erro! Preencha o campo 'Descrição' do lanche"):
         super().__init__(*msg)
 
 
