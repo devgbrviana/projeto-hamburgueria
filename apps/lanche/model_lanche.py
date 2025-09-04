@@ -51,6 +51,11 @@ class LancheSemNome(Exception):
         self.msg = msg
         super().__init__(*msg)
 
+class LancheSemPreco(Exception):
+    def __init__(self, msg="Erro! Preencha o compo 'Preço' do lanche!"):
+        self.msg = msg
+        super().__init__(*msg)
+
 
 
 ### ===== Funções auxiliares ===== ###
