@@ -7,6 +7,8 @@ RUN pip install --user -r requirements.txt
 
 COPY . .
 
+
+
 EXPOSE 5002
 
 CMD ["python", "apps/app.py"]
