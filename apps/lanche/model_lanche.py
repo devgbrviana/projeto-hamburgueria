@@ -24,8 +24,17 @@ class Lanche (db_serv.Model):
             "descricao": self.descricao
         }
         
-    
+# Classes de exceção:
 
+class LancheJaExiste(Exception):
+    def __init__(self, msg="Erro, o lanche já existe!"):
+        self.msg = msg
+        super().__init__(self.msg)
+
+
+
+
+# Funções auxiliares:
 def criarLanche(nv_dict):
     db_serv.session.add(nv_dict)
     db_serv.session.commit()
