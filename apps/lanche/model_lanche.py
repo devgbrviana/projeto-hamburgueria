@@ -36,6 +36,11 @@ class LancheNaoExiste(Exception):
         self.msg = msg
         super().__init__(*msg)
 
+class CadastroDeLancheFalhado(Exception):
+    def __init__(self, msg="Erro ao processar o cadastro do lanche!"):
+        self.msg = msg
+        super().__init__(*msg)
+
 
 # Funções auxiliares:
 def criarLanche(nv_dict):
