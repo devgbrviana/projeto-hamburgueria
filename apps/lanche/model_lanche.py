@@ -27,7 +27,7 @@ class Lanche (db_serv.Model):
 ### ===== Classe de exceção ===== ###
 
 class LancheJaExiste(Exception):
-    def __init__(self, msg="Erro, o lanche já existe!"):
+    def __init__(self, msg="Erro, já existe um lanche com esse id!"):
         self.msg = msg
         super().__init__(self.msg)
 
