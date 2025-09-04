@@ -7,7 +7,7 @@ class Lanche (db_serv.Model):
     id = db_serv.Column(db_serv.Integer, primary_key=True)
     nome = db_serv.Column(db_serv.String(60), nullable=True)
     preco = db_serv.Column(db_serv.Float, nullable=False)
-    descricao = db_serv.Column(db_serv.Sting(120), nullable=False)
+    descricao = db_serv.Column(db_serv.String(120), nullable=False)
 
 
     def __init__(self, id, nome, preco, descricao):
