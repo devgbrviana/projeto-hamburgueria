@@ -17,23 +17,23 @@ def criar_lanche():
         dados_lanche = request.get_json()
         
         if not dados_lanche or 'id' not in dados_lanche:
-            return jsonify ({"Erro": str(modLan.LancheSemId)}), 400
+            return jsonify ({"Erro": modLan.LancheSemId().msg}), 400
         
         if not dados_lanche or 'nome' not in dados_lanche:
-            return jsonify({"Erro": str(modLan.LancheSemNome)}), 400
+            return jsonify({"Erro": str(modLan.LancheSemNome().msg)}), 400
         
         if not dados_lanche or 'descricao' not in dados_lanche:
-            return jsonify ({"Erro": str(modLan.LancheSemDescricao)}), 400
+            return jsonify ({"Erro": modLan.LancheSemDescricao().msg}), 400
         
         if not dados_lanche or 'preco' not in dados_lanche:
-            return jsonify ({"Erro": str(modLan.LancheSemPreco)}), 400
+            return jsonify ({"Erro": modLan.LancheSemPreco().msg}), 400
         
         lanche_id = int(dados_lanche["id"])
 
         if modLan.lancheExiste(lanche_id):
             return jsonify ({
                 "Erro": "Conflito",
-                "Descrição": str(modLan.LancheJaExiste)
+                "Descrição": modLan.LancheJaExiste().msg
             }), 409
         
         novo_lanche = modLan.Lanche(
