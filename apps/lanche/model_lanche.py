@@ -58,6 +58,7 @@ class LancheSemPreco(Exception):
 
 class LancheSemDescricao(Exception):
     def __init__(self, msg="Erro! Preencha o campo 'Descrição' do lanche"):
+        self.msg = msg
         super().__init__(msg)
 
 
