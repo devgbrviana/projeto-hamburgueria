@@ -34,31 +34,31 @@ class LancheJaExiste(Exception):
 class LancheNaoExiste(Exception):
     def __init__(self, msg="Erro, o lanche não existe!"):
         self.msg = msg
-        super().__init__(*msg)
+        super().__init__(msg)
 
 class CadastroDeLancheFalhado(Exception):
     def __init__(self, msg="Erro ao processar o cadastro do lanche!"):
         self.msg = msg
-        super().__init__(*msg)
+        super().__init__(msg)
 
 class LancheSemId(Exception):
     def __init__(self, msg="Erro! Preencha o campo 'Id' do lanche! "):
         self.msg = msg
-        super().__init__(*msg)
+        super().__init__(msg)
 
 class LancheSemNome(Exception):
     def __init__(self, msg="Erro! Preencha o campo 'Nome' do lanche! "):
         self.msg = msg
-        super().__init__(*msg)
+        super().__init__(msg)
 
 class LancheSemPreco(Exception):
     def __init__(self, msg="Erro! Preencha o compo 'Preço' do lanche!"):
         self.msg = msg
-        super().__init__(*msg)
+        super().__init__(msg)
 
 class LancheSemDescricao(Exception):
     def __init__(self, msg="Erro! Preencha o campo 'Descrição' do lanche"):
-        super().__init__(*msg)
+        super().__init__(msg)
 
 
 
@@ -73,7 +73,7 @@ def criarLanche(nv_dict):
 def listarLanche():
     lanches = Lanche.query.all()
     print(lanches)
-    return [lanches.to_dict() for lanche in lanches]
+    return [lanche.to_dict() for lanche in lanches]
 
 
 def lancheExiste(id):
