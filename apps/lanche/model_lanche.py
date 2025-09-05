@@ -86,3 +86,13 @@ def lancheExiste(id):
     lanche = Lanche.query.get(id)
     return lanche is not None
         
+
+def deletarLanche(id_lanche):
+    try:
+        lanche = db_serv.session.query(Lanche).get(id_lanche)
+        if lanche is not None:
+            return ({"Mensagem": LancheNaoExiste().msg}), 404
+        db_serv.session.delete(lanche)
+        db_serv.session.commit()
+    except Exception as e:
+        return ({"Erro": str(e)}), 500
