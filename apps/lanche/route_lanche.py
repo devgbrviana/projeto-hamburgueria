@@ -64,7 +64,14 @@ def criar_lanche():
 @bd_Lanche.route("/lanche/<int:id_lanche>", methods=["DELETE"])
 def deletar_lanche(id_lanche):
     try:
-        modLan.deletarLanche(id_lanche)
-        return jsonify ({"Mensagem": "Lanche deletado com sucesso!"}),200
-    except modLan.LancheNaoExiste as lne:
-        return jsonify({"Erro": str(lne)}), 404
+        lanche = modLan.db_serv.session.query(modLan.Lanche).get(id_lanche)
+        if lanche is None:
+            return {"Mensagem": modLan.LancheNaoExiste().msg}, 404
+        else:
+            modLan.deletarLanche(id_lanche)
+            return jsonify ({"Mensagem": "Lanche deletado com sucesso!"}),200
+    except Exception as e:
+        return jsonify({
+            "Erro": "Erro interno do servidor",
+            "Detalhes": str(e)
+            }), 500
