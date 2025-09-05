@@ -7,7 +7,7 @@ class Lanche (db_serv.Model):
     id = db_serv.Column(db_serv.Integer, primary_key=True)
     nome = db_serv.Column(db_serv.String(60), nullable=True)
     preco = db_serv.Column(db_serv.Float, nullable=False)
-    descricao = db_serv.Column(db_serv.String(120), nullable=False)
+    descricao = db_serv.Column(db_serv.String(450), nullable=False)
 
 
     def __init__(self, id, nome, preco, descricao):
@@ -90,9 +90,11 @@ def lancheExiste(id):
 def deletarLanche(id_lanche):
     try:
         lanche = db_serv.session.query(Lanche).get(id_lanche)
-        if lanche is not None:
-            return ({"Mensagem": LancheNaoExiste().msg}), 404
-        db_serv.session.delete(lanche)
-        db_serv.session.commit()
+
+        if lanche is None:
+            return {"Mensagem": LancheNaoExiste().msg}, 404
+        else:
+            db_serv.session.delete(lanche)
+            db_serv.session.commit()
     except Exception as e:
         return ({"Erro": str(e)}), 500
