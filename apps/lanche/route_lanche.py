@@ -55,11 +55,16 @@ def criar_lanche():
             "Detalhes": str(e)
             }), 500
 
-
-
-
     except modLan.CadastroDeLancheFalhado as cdt:
         return jsonify({
             "Erro": "Falha ao cadastrar lancher",
             "Detalhes": str(cdt)
         }), 400
+    
+@bd_Lanche.route("/lanche/<int:id_lanche>", methods=["DELETE"])
+def deletar_lanche(id_lanche):
+    try:
+        modLan.deletarLanche(id_lanche)
+        return jsonify ({"Mensagem": "Lanche deletado com sucesso!"}),200
+    except modLan.LancheNaoExiste as lne:
+        return jsonify({"Erro": str(lne)}), 404
