@@ -1,3 +1,5 @@
+# Arquivo Seed
+
 from config import app, db_serv
 from lanche.model_lanche import Lanche
 

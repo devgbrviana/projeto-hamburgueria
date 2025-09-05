@@ -7,6 +7,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 app.register_blueprint(bd_Lanche)
 
-
+app.config['JSON_AS_ASCII'] = False
 if __name__ == '__main__':
     app.run(host=app.config["HOST"], port = app.config['PORT'],debug=app.config['DEBUG'] )
