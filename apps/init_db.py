@@ -1,21 +1,11 @@
-# apps/init_db.py - Versão Final e Corrigida
-
-# 1. Importamos as ferramentas necessárias
-from apps.app import create_app        # A nossa função "fábrica" de apps
-from apps.extensions import db_serv    # A nossa instância do banco de dados
-from apps.lanche.model_lanche import Lanche # O nosso modelo de Lanche
-
-# 2. Criamos uma instância da aplicação para este script
+from apps.app import create_app        
+from apps.extensions import db_serv   
+from apps.lanche.model_lanche import Lanche 
 app = create_app()
-
-# 3. Usamos o "contexto" da aplicação para realizar operações no banco
 with app.app_context():
     print("Iniciando a criação do banco de dados...")
-    # Garante que todas as tabelas (baseadas nos seus modelos) sejam criadas
     db_serv.create_all()
     print("Tabelas criadas com sucesso.")
-
-    # 4. Adicionamos os lanches de exemplo (se eles ainda não existirem)
     lanches_de_exemplo = [
         {
             "id": 1, "nome": "Java Burguer", "preco": 31.99,
@@ -42,17 +32,13 @@ with app.app_context():
             "descricao": "Os novos sanduíches contêm dois hambúrgueres de carne 100% bovina, com um peso total de 227,6g. Além da carne, a receita inclui a exclusiva maionese com sabor de carne defumada, fatias de bacon, queijo processado, molho especial e cebola ao molho shoyu."
         }
     ]
-
     print("Verificando e inserindo dados de exemplo...")
     for dados_lanche in lanches_de_exemplo:
-        # Verifica se o lanche com este ID já existe para não duplicar
         lanche_existente = db_serv.session.get(Lanche, dados_lanche["id"])
         if not lanche_existente:
-            novo_lanche = Lanche(**dados_lanche) # Otimização para criar o objeto
+            novo_lanche = Lanche(**dados_lanche) 
             db_serv.session.add(novo_lanche)
             print(f"Adicionado: {dados_lanche['nome']}")
-
-    # Salva todas as novas adições no banco de dados
     db_serv.session.commit()
     print("Dados de exemplo inseridos com sucesso!")
     print("Banco de dados pronto para uso.")
