@@ -37,10 +37,7 @@ function exibirLanchesNaPagina(lanches) {
                 <div class="info">
                     <div class="product-category">Tradicional</div>
                     <div class="product-name">${lanche.nome}</div>
-                    
-                    <!-- LINHA NOVA ADICIONADA AQUI -->
                     <div class="product-description">${lanche.descricao}</div> 
-
                     <div class="product-price">${Number(lanche.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</div>
                 </div>
             </a>
