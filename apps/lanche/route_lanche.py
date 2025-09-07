@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-import lanche.model_lanche as modLan
+from . import model_lanche as modLan
 
 bd_Lanche = Blueprint('Lanche', __name__)
 
