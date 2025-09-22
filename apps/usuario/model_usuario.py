@@ -83,3 +83,16 @@ def listarUsuarioPorId(id_empresa):
     if empresa is None:
         raise UsuarioNaoEncontrado()
     return empresa.to_dict()
+
+
+def procurarUsuario(id_usuario):
+    """
+    Procura um usuário no banco de dados pelo seu id, verifica se
+    o id/usuario realmente existe, retornando True ou Falso a depender
+    da situação.
+    """
+    usuario = Usuario.query.get(id_usuario)
+    if usuario is None:
+        return False
+    else:
+        return True
