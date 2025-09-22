@@ -25,7 +25,36 @@ def listar_usuario_id(id):
 
 @bd_Usuario.route("/usuario", methods=["POST"])
 def criar_usuario():
-    pass
+    try:
+        dict_usuario = request.get_json()
+
+        if not dict_usuario or 'nome' not in dict_usuario:
+            return jsonify ({"Erro": ModUso.UsuarioSemNome().msg}),400
+        if not dict_usuario or 'email' not in dict_usuario:
+            return jsonify({"Erro": ModUso.UsuarioSemEmail().msg}),400
+        if not dict_usuario or 'senha' not in dict_usuario:
+            return jsonify({"Erro": ModUso.UsuarioSemSenha().msg}), 400
+        if not dict_usuario or 'endereco' not in dict_usuario:
+            return jsonify({"Erro": ModUso.UsuarioSemEndereco().msg}), 400
+        if not dict_usuario or 'telefone' not in dict_usuario:
+            return jsonify({"Erro": ModUso.UsuarioSemTelefone().msg}), 400
+        
+        novo_usuario = ModUso.Usuario(
+            nome=dict_usuario["nome"],
+            email=dict_usuario["email"],
+            endereco=dict_usuario["endereco"],
+            telefone=dict_usuario["telefone"],
+            senha=dict_usuario["senha"]
+        )
+
+        ModUso.criarUsuario(novo_usuario)
+        return jsonify({"Mensagem": "Usuário cadastrado com sucesso!"}),201
+
+    except Exception as e:
+        return jsonify ({
+            "Erro": "Não foi possível executar a requisição",
+            "Detalhes": str(e)
+        }), 500
 
 
 @bd_Usuario.route("/usuario/<int:id>", methods=["DELETE"])
