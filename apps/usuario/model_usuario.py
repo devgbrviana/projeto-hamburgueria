@@ -12,8 +12,7 @@ class Usuario(db_serv.Model):
     telefone = db_serv.Column(db_serv.String(16), nullable=True, unique=True)
     
 
-    def __init__(self, id, nome, email, senha, telefone, endereco):
-        self.id = id
+    def __init__(self, nome, email, senha, telefone, endereco):
         self.nome = nome
         self.email = email
         self.senha = senha

@@ -42,9 +42,9 @@ def criar_usuario():
         novo_usuario = ModUso.Usuario(
             nome=dict_usuario["nome"],
             email=dict_usuario["email"],
-            endereco=dict_usuario["endereco"],
+            senha=dict_usuario["senha"],
             telefone=dict_usuario["telefone"],
-            senha=dict_usuario["senha"]
+            endereco=dict_usuario["endereco"]
         )
 
         ModUso.criarUsuario(novo_usuario)
