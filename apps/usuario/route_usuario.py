@@ -5,7 +5,11 @@ bd_Usuario = Blueprint("Usuario", __name__)
 
 @bd_Usuario.route("/usuario", methods=["GET"])
 def listar_usuario():
-    pass
+    try:
+        usuarios = ModUso.listarUsuarios()
+        return jsonify(usuarios), 200
+    except Exception as e:
+        return jsonify ({"Erro": str(e)}), 400
 
 
 @bd_Usuario.route("/usuario/<int:id>", methods=["GET"])
