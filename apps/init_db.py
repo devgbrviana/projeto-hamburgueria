@@ -2,6 +2,7 @@
 
 from config import app, db_serv
 from lanche.model_lanche import Lanche
+from usuario.model_usuario import Usuario
 
 def seed_database():
     lanches_de_exemplo = [
