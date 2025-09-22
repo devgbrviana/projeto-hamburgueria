@@ -38,6 +38,14 @@ class UsuarioNaoEncontrado(Exception):
         self.msg = msg
         super().__init__(self.msg)
 
+class UsuarioSemNome(Exception):
+    def __init__(self, msg="Não é possível cadastrar um usuário sem Nome!"):
+        self.msg = msg
+        super().__init__(self.msg)
+
+
+
+
 
 # ===== Funções auxiliares para Usuários ===== #
 
