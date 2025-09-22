@@ -50,3 +50,14 @@ def listarUsuarios():
     """
     usuarios = Usuario.query.all()
     return[usuario.to_dict() for usuario in usuarios]
+
+def deletarUsuarioPorId(id_usuario):
+    """
+    Esta função deleta um usuário pelo seu id, tem como parâmetro o id do
+    usuário, faz uma requisição ao Banco de Dados e remove esse usuário com o id
+    correspondente, sem retornar nada.
+    """
+    Usuario = Usuario.query.get(id_usuario)
+    db_serv.session.delete(Usuario)
+    db_serv.session.commit()
+    return
