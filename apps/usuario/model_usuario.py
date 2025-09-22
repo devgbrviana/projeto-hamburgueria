@@ -53,6 +53,11 @@ class UsuarioSemSenha(Exception):
         self.msg = msg
         super().__init__(self.msg)
 
+class UsuarioSemEndereco(Exception):
+    def __init__(self, msg="Não é possível cadastra um usuário sem o Endereço!"):
+        self.msg = msg
+        super().__init__(self.msg)
+
 
 # ===== Funções auxiliares para Usuários ===== #
 
