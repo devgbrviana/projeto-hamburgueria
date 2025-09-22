@@ -8,14 +8,17 @@ class Usuario(db_serv.Model):
     nome = db_serv.Column(db_serv.String(60), nullable=True)
     email = db_serv.Column(db_serv.String(120), unique=True, nullable=False)
     senha = db_serv.Column(db_serv.String(130), nullable=True)
+    endereco = db_serv.Column(db_serv.String(130), nullable=True)
     telefone = db_serv.Column(db_serv.String(16), nullable=True, unique=True)
+    
 
-    def __init__(self, id, nome, email, senha, telefone):
+    def __init__(self, id, nome, email, senha, telefone, endereco):
         self.id = id
         self.nome = nome
         self.email = email
         self.senha = senha
-        self. telefone = telefone
+        self.telefone = telefone
+        self.endereco = endereco
 
     def to_dict(self):
         return {
@@ -23,7 +26,8 @@ class Usuario(db_serv.Model):
             "nome": self.nome,
             "email": self.email,
             "senha": self.senha,
-            "telefone": self.telefone
+            "telefone": self.telefone,
+            "endereco": self.endereco
         }
     
 
@@ -74,15 +78,15 @@ def deletarUsuarioPorId(id_usuario):
     return
 
 
-def listarUsuarioPorId(id_empresa):
+def listarUsuarioPorId(id_usuario):
     """
     Procura um usuário no banco de dados por ID.
     Retorna o objeto da empresa se encontrada, ou levanta uma exceção.
     """
-    empresa = Usuario.query.get(id_empresa)
-    if empresa is None:
+    usuario = Usuario.query.get(id_usuario)
+    if usuario is None:
         raise UsuarioNaoEncontrado()
-    return empresa.to_dict()
+    return usuario.to_dict()
 
 
 def procurarUsuario(id_usuario):
@@ -96,3 +100,23 @@ def procurarUsuario(id_usuario):
         return False
     else:
         return True
+    
+
+def alterarUsuario(id_usuario, dados_atualizados):
+    """
+    Busca e atualiza os dados de uma empresca no banco de dados,
+    caso a mesma não seja encontrada, é levantada uma exceção
+    """
+    
+    usuario = Usuario.query.get(id_usuario)
+    if usuario is None:
+        raise UsuarioNaoEncontrado()
+        
+    usuario.nome = dados_atualizados.get('razao_social', usuario.nome)
+    usuario.email = dados_atualizados.get('email', usuario.email)
+    usuario.senha = dados_atualizados.get('senha', usuario.senha)
+    usuario.endereco = dados_atualizados.get('endereco', usuario.endereco)
+    usuario.telefone = dados_atualizados.get('telefone', usuario.telefone)
+
+    db_serv.session.commit()
+    return usuario.to_dict()
