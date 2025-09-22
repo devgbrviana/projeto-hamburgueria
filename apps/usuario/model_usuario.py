@@ -25,3 +25,18 @@ class Usuario(db_serv.Model):
             "senha": self.senha,
             "telefone": self.telefone
         }
+    
+
+def criarUsuario(nova_usuario):
+    """
+    Esta função tem como objetivo cadastrar um novo usuário no 
+    Banco de dados, ela recebe um dicionário entregue através da rota,
+    assim adiciona ao banco. Retornando True ou Falso a depender do caso.
+    """
+    try:
+        db_serv.session.add(nova_usuario)
+        db_serv.session.commit()
+        return True
+    except Exception as e:
+        print(f"Erro ao cadastrar usuário: {e}")
+        return False
