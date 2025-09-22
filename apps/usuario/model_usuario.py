@@ -27,6 +27,13 @@ class Usuario(db_serv.Model):
         }
     
 
+# ===== Classes de Exceção para Usuários ===== #
+
+class UsuarioNaoEncontrado(Exception):
+    def __init__(self, msg="Erro, Usuário não encontrado! "):
+        self.msg = msg
+        super().__init__(self.msg)
+
 def criarUsuario(nova_usuario):
     """
     Esta função tem como objetivo cadastrar um novo usuário no 
@@ -50,6 +57,7 @@ def listarUsuarios():
     """
     usuarios = Usuario.query.all()
     return[usuario.to_dict() for usuario in usuarios]
+
 
 def deletarUsuarioPorId(id_usuario):
     """
