@@ -14,7 +14,13 @@ def listar_usuario():
 
 @bd_Usuario.route("/usuario/<int:id>", methods=["GET"])
 def listar_usuario_id(id):
-    pass
+    try:
+        return ModUso.listarUsuarios(id), 200
+    except Exception as e:
+        return jsonify ({
+            "Erro": "Não foi possível fazer a requisição",
+            "Descrição": str(e)
+        }), 500
 
 
 @bd_Usuario.route("/usuario", methods=["POST"])
