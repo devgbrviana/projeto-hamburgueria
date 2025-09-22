@@ -40,3 +40,13 @@ def criarUsuario(nova_usuario):
     except Exception as e:
         print(f"Erro ao cadastrar usuário: {e}")
         return False
+    
+
+def listarUsuarios():
+    """
+    Essa função faz uma requisição ao Banco de dados de todas os  usuários 
+    cadastrados e armazenando em uma variável, assim através de um for ela
+    itera sobre todos os dados e os retorna. 
+    """
+    usuarios = Usuario.query.all()
+    return[usuario.to_dict() for usuario in usuarios]
