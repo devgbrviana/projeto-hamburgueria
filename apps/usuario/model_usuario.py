@@ -34,6 +34,9 @@ class UsuarioNaoEncontrado(Exception):
         self.msg = msg
         super().__init__(self.msg)
 
+
+# ===== Funções auxiliares para Usuários ===== #
+
 def criarUsuario(nova_usuario):
     """
     Esta função tem como objetivo cadastrar um novo usuário no 
@@ -69,3 +72,14 @@ def deletarUsuarioPorId(id_usuario):
     db_serv.session.delete(Usuario)
     db_serv.session.commit()
     return
+
+
+def listarUsuarioPorId(id_empresa):
+    """
+    Procura um usuário no banco de dados por ID.
+    Retorna o objeto da empresa se encontrada, ou levanta uma exceção.
+    """
+    empresa = Usuario.query.get(id_empresa)
+    if empresa is None:
+        raise UsuarioNaoEncontrado()
+    return empresa.to_dict()
