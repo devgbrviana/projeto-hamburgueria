@@ -59,7 +59,13 @@ def criar_usuario():
 
 @bd_Usuario.route("/usuario/<int:id>", methods=["DELETE"])
 def deletar_usuario(id):
-    pass
+    try:
+        ModUso.deletarUsuarioPorId(id)
+        return jsonify ({"Mensagem":"Empresa deletada com sucesso!"}),200
+    except ModUso.UsuarioNaoEncontrado as Enc:
+        return jsonify ({"Requisição Inválida": str(Enc)}), 400
+    except Exception as e:
+        return jsonify ({"Requisição Inválida": str(e)}), 500
 
 
 bd_Usuario.route("/usuario/<int:id>", methods=["PUT"])
