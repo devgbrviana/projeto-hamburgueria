@@ -70,4 +70,46 @@ def deletar_usuario(id):
 
 bd_Usuario.route("/usuario/<int:id>", methods=["PUT"])
 def alterar_usuario(id):
-    pass
+    try:
+        dict_usuario = request.get_json()
+
+        if not dict_usuario:
+            return jsonify ({
+                "Erro": "Não foi possível realizar a requisição",
+                "Descrição": "O corpo da requisição está vazio, preencha todos os campos"
+            }), 400
+        
+        if 'nome' not in dict_usuario:
+            return jsonify ({
+                "Erro": ModUso.UsuarioSemNome().msg
+            }), 400
+        
+        if 'email' not in dict_usuario:
+            return jsonify ({
+                "Erro": ModUso.UsuarioSemEmail().msg
+            }), 400
+        
+        if 'senha' not in dict_usuario:
+            return jsonify ({
+                "Erro": ModUso.UsuarioSemSenha().msg
+            }), 400
+        
+        if 'endereco' not in dict_usuario:
+            return jsonify ({
+                "Erro": ModUso.UsuarioSemEndereco().msg
+            }), 400
+        
+        if 'telefone' not in dict_usuario:
+            return jsonify ({
+                "Erro": ModUso.UsuarioSemTelefone().msg
+            }), 400
+
+
+        ModUso.alterarUsuario(id, dict_usuario)
+        return jsonify ({"Mensagem": "Dados do Usuário alterado com sucesso"}), 200
+    
+    except Exception as e:
+        return jsonify({
+            "Erro": "Não foi possível processar a requisição",
+            "Detalhes": str(e)
+        }), 500
