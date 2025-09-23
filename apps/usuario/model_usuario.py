@@ -6,10 +6,10 @@ class Usuario(db_serv.Model):
 
     id = db_serv.Column(db_serv.Integer, primary_key=True)
     nome = db_serv.Column(db_serv.String(60), nullable=True)
-    email = db_serv.Column(db_serv.String(120), unique=True, nullable=False)
+    email = db_serv.Column(db_serv.String(120), nullable=False)
     senha = db_serv.Column(db_serv.String(130), nullable=True)
     endereco = db_serv.Column(db_serv.String(130), nullable=True)
-    telefone = db_serv.Column(db_serv.String(16), nullable=True, unique=True)
+    telefone = db_serv.Column(db_serv.String(16), nullable=True)
     
 
     def __init__(self, nome, email, senha, telefone, endereco):
