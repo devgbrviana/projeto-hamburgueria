@@ -1,4 +1,5 @@
 from config import db_serv
+from sqlalchemy import exc
 
 class Usuario(db_serv.Model):
     __tablename__ = "usuarios"
@@ -28,6 +29,18 @@ class Usuario(db_serv.Model):
             "telefone": self.telefone,
             "endereco": self.endereco
         }
+    
+    @classmethod
+    def buscarEmail(cls, email):
+        """
+        Busca um usuário no banco de dados pelo seu e-mail.
+        Retorna o objeto Usuário se encontrado, ou None se não
+        """
+        try:
+            return cls.query.filter_by(email=email).first()
+        except exc.SQLAlchemyError as e:
+            print(f"Erro ao buscar usuário por email {e}")
+            return None
     
 
 # ===== Classes de Exceção para Usuários ===== #
@@ -143,3 +156,4 @@ def alterarUsuario(id_usuario, dados_atualizados):
 
     db_serv.session.commit()
     return usuario.to_dict()
+
