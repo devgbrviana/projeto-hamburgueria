@@ -15,12 +15,12 @@ def logar():
         usuario_logado = modUso.loginUsuario(email, senha)
 
         if usuario_logado is None:
-            return jsonify ({"erro": modLog.CampoIncorreto().msg})
-        
-        return jsonify ({
-            "mensagem": "Login bem-sucedido",
-            "usuario": usuario_logado.to_dict()
-            }), 200
+            return jsonify ({"erro": modLog.CampoIncorreto().msg}), 400
+        else:
+            return jsonify ({
+                "mensagem": "Login bem-sucedido",
+                "usuario": usuario_logado.to_dict()
+                }), 200
     
     except Exception as e:
         print(f"Erro no processo de login {e}")
