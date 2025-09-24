@@ -8,5 +8,7 @@ class CampoLoginVazio(Exception):
         self.msg = msg
         super().__init__(self.msg)
 
-
-        
+class CampoIncorreto(Exception):
+    def __init__(self, msg="Email ou senha Incorretos!"):
+        self.msg = msg
+        super().__init__(msg)
