@@ -157,3 +157,22 @@ def alterarUsuario(id_usuario, dados_atualizados):
     db_serv.session.commit()
     return usuario.to_dict()
 
+def loginUsuario(email, senha):
+    """
+    Função que executa a lógica de login.
+    Retorna o objeto do usuário em caso de sucesso ou None em caso de falha.
+    """
+    if not email or not senha:
+        return None
+    
+    usuario = Usuario.buscarEmail(email)
+
+    # 1 - Verificar se o usuário existe
+    if usuario is None:
+        return None
+    
+    # 2 - Vericicar senha
+
+    if usuario.senha == senha:
+        return usuario
+    else: return None
