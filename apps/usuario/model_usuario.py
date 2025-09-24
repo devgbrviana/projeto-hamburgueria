@@ -180,6 +180,7 @@ def loginUsuario(email, senha):
     
     # 2 - Vericicar senha
 
-    if usuario.senha == senha:
+    if bcrypt.checkpw(senha.encode('utf-8'), usuario.senha.encode('utf-8')):
         return usuario
-    else: return None
+    else:
+        return None
