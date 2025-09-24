@@ -1,5 +1,6 @@
 from config import db_serv
 from sqlalchemy import exc
+import bcrypt
 
 class Usuario(db_serv.Model):
     __tablename__ = "usuarios"
@@ -77,14 +78,20 @@ class UsuarioSemTelefone(Exception):
 
 # ===== Funções auxiliares para Usuários ===== #
 
-def criarUsuario(nova_usuario):
+def criarUsuario(novo_usuario):
     """
     Esta função tem como objetivo cadastrar um novo usuário no 
     Banco de dados, ela recebe um dicionário entregue através da rota,
     assim adiciona ao banco. Retornando True ou Falso a depender do caso.
     """
+
+    senha_original = novo_usuario.senha
+
+    senha_criptografada = bcrypt.hashpw(senha_original.encode('utf-8'), bcrypt.gensalt())
+
+    novo_usuario.senha = senha_criptografada
     try:
-        db_serv.session.add(nova_usuario)
+        db_serv.session.add(novo_usuario)
         db_serv.session.commit()
         return True
     except Exception as e:
