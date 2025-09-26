@@ -1,27 +1,26 @@
-from flask import jsonify, request, Blueprint
-import login.model_login as modLog
-import usuario.model_usuario as modUso
+# apps/login/route_login.py
 
+from flask import request, jsonify, Blueprint
+from apps.usuario.model_usuario import Usuario
+from apps.app import db_serv # <-- Adicionado por consistência
 
-bd_Login = Blueprint("Login", __name__)
+bd_login = Blueprint('login', __name__)
 
-@bd_Login.route("/login", methods=["POST"])
+@bd_login.route('/login', methods=['POST'])
 def logar():
-    try:
-        data = request.get_json()
-        email = data.get('email')
-        senha = data.get('senha')
+    data = request.get_json()
+    email = data.get('email')
+    senha = data.get('senha')
 
-        usuario_logado = modUso.loginUsuario(email, senha)
+    if not email or not senha:
+        return jsonify({"erro": "Email e senha são obrigatórios"}), 400
 
-        if usuario_logado is None:
-            return jsonify ({"erro": modLog.CampoIncorreto().msg}), 400
-        else:
-            return jsonify ({
-                "mensagem": "Login bem-sucedido",
-                "usuario": usuario_logado.to_dict()
-                }), 200
-    
-    except Exception as e:
-        print(f"Erro no processo de login {e}")
-        return jsonify({"erro": "Erro interno no servidor"}), 500
+    usuario = Usuario.query.filter_by(email=email).first()
+
+    if usuario and usuario.verificar_senha(senha):
+        return jsonify({
+            "mensagem": "Login bem-sucedido",
+            "usuario": usuario.to_dict()
+        }), 200
+    else:
+        return jsonify({"erro": "Email ou senha incorretos"}), 401

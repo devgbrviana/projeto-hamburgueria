@@ -1,115 +1,41 @@
+# apps/usuario/route_usuario.py
+
 from flask import request, jsonify, Blueprint
-import usuario.model_usuario as ModUso
+from werkzeug.security import generate_password_hash
+from apps.app import db_serv
+from apps.usuario.model_usuario import Usuario # <-- CORRIGIDO AQUI
 
-bd_Usuario = Blueprint("Usuario", __name__)
+bd_usuario = Blueprint('usuario', __name__)
 
-@bd_Usuario.route("/usuario", methods=["GET"])
-def listar_usuario():
+@bd_usuario.route('/cadastro', methods=['POST'])
+def cadastrar_usuario():
+    data = request.get_json()
+
+    nome = data.get('nome')
+    email = data.get('email')
+    telefone = data.get('telefone')
+    senha = data.get('senha')
+
+    if not all([nome, email, senha]):
+        return jsonify({"erro": "Todos os campos (nome, email, senha) são obrigatórios"}), 400
+
+    if Usuario.query.filter_by(email=email).first():
+        return jsonify({"erro": "Este email já está cadastrado."}), 409
+
+    senha_hash = generate_password_hash(senha)
+
+    novo_usuario = Usuario(
+        nome=nome,
+        email=email,
+        telefone=telefone,
+        senha_hash=senha_hash
+    )
+
     try:
-        usuarios = ModUso.listarUsuarios()
-        return jsonify(usuarios), 200
+        db_serv.session.add(novo_usuario)
+        db_serv.session.commit()
+        return jsonify({"mensagem": "Usuário criado com sucesso!"}), 201
     except Exception as e:
-        return jsonify ({"Erro": str(e)}), 400
-
-
-@bd_Usuario.route("/usuario/<int:id>", methods=["GET"])
-def listar_usuario_id(id):
-    try:
-        return ModUso.listarUsuarioPorId(id), 200
-    except Exception as e:
-        return jsonify ({
-            "Erro": "Não foi possível fazer a requisição",
-            "Descrição": str(e)
-        }), 500
-
-
-@bd_Usuario.route("/usuario", methods=["POST"])
-def criar_usuario():
-    try:
-        dict_usuario = request.get_json()
-
-        if not dict_usuario or 'nome' not in dict_usuario:
-            return jsonify ({"Erro": ModUso.UsuarioSemNome().msg}),400
-        if not dict_usuario or 'email' not in dict_usuario:
-            return jsonify({"Erro": ModUso.UsuarioSemEmail().msg}),400
-        if not dict_usuario or 'senha' not in dict_usuario:
-            return jsonify({"Erro": ModUso.UsuarioSemSenha().msg}), 400
-        if not dict_usuario or 'endereco' not in dict_usuario:
-            return jsonify({"Erro": ModUso.UsuarioSemEndereco().msg}), 400
-        if not dict_usuario or 'telefone' not in dict_usuario:
-            return jsonify({"Erro": ModUso.UsuarioSemTelefone().msg}), 400
-        
-        novo_usuario = ModUso.Usuario(
-            nome=dict_usuario["nome"],
-            email=dict_usuario["email"],
-            senha=dict_usuario["senha"],
-            telefone=dict_usuario["telefone"],
-            endereco=dict_usuario["endereco"]
-        )
-
-        ModUso.criarUsuario(novo_usuario)
-        return jsonify({"Mensagem": "Usuário cadastrado com sucesso!"}),201
-
-    except Exception as e:
-        return jsonify ({
-            "Erro": "Não foi possível executar a requisição",
-            "Detalhes": str(e)
-        }), 500
-
-
-@bd_Usuario.route("/usuario/<int:id>", methods=["DELETE"])
-def deletar_usuario(id):
-    try:
-        ModUso.deletarUsuarioPorId(id)
-        return jsonify ({"Mensagem":"Empresa deletada com sucesso!"}),200
-    except ModUso.UsuarioNaoEncontrado as Enc:
-        return jsonify ({"Requisição Inválida": str(Enc)}), 400
-    except Exception as e:
-        return jsonify ({"Requisição Inválida": str(e)}), 500
-
-
-bd_Usuario.route("/usuario/<int:id>", methods=["PUT"])
-def alterar_usuario(id):
-    try:
-        dict_usuario = request.get_json()
-
-        if not dict_usuario:
-            return jsonify ({
-                "Erro": "Não foi possível realizar a requisição",
-                "Descrição": "O corpo da requisição está vazio, preencha todos os campos"
-            }), 400
-        
-        if 'nome' not in dict_usuario:
-            return jsonify ({
-                "Erro": ModUso.UsuarioSemNome().msg
-            }), 400
-        
-        if 'email' not in dict_usuario:
-            return jsonify ({
-                "Erro": ModUso.UsuarioSemEmail().msg
-            }), 400
-        
-        if 'senha' not in dict_usuario:
-            return jsonify ({
-                "Erro": ModUso.UsuarioSemSenha().msg
-            }), 400
-        
-        if 'endereco' not in dict_usuario:
-            return jsonify ({
-                "Erro": ModUso.UsuarioSemEndereco().msg
-            }), 400
-        
-        if 'telefone' not in dict_usuario:
-            return jsonify ({
-                "Erro": ModUso.UsuarioSemTelefone().msg
-            }), 400
-
-
-        ModUso.alterarUsuario(id, dict_usuario)
-        return jsonify ({"Mensagem": "Dados do Usuário alterado com sucesso"}), 200
-    
-    except Exception as e:
-        return jsonify({
-            "Erro": "Não foi possível processar a requisição",
-            "Detalhes": str(e)
-        }), 500
+        db_serv.session.rollback()
+        print(f"Erro ao salvar usuário: {e}")
+        return jsonify({"erro": "Erro interno ao criar usuário."}), 500
