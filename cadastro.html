@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Code Burger</title>
+    <link rel="stylesheet" href="style.css">
+    
+
+</head>
+<body>
+    <div class="page-container">
+        <div class="form-wrapper">
+            <div class="header-section">
+                <img src="logoicone/logo_codeburguer.png" alt="Code Burger" class="logo">
+                <h1 class="main-title">Code Burger</h1>
+                <p class="subtitle">Crie sua conta e faça parte da nossa comunidade</p>
+            </div>
+
+            <div class="form-card">
+                <div class="card-header">
+                    <h2 class="card-title">Cadastro</h2>
+                    <p class="card-description">Preencha os dados para criar sua conta</p>
+                </div>
+                
+                <div class="card-content">
+                    <form id="cadastroForm" class="form">
+                        <div class="input-group">
+                            <label for="nome" class="label">Nome completo</label>
+                            <input 
+                                type="text" 
+                                id="nome" 
+                                class="input" 
+                                placeholder="Seu nome completo" 
+                                required
+                            >
+                        </div>
+
+                        <div class="input-group">
+                            <label for="email" class="label">Email</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                class="input" 
+                                placeholder="seu@email.com" 
+                                required
+                            >
+                        </div>
+
+                        <div class="input-group">
+                            <label for="telefone" class="label">Telefone</label>
+                            <input 
+                                type="tel" 
+                                id="telefone" 
+                                class="input" 
+                                placeholder="(11) 99999-9999" 
+                                required
+                            >
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="password" class="label">Senha</label>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                class="input" 
+                                placeholder="••••••••" 
+                                required
+                                minlength="6"
+                            >
+                        </div>
+
+                        <div class="input-group">
+                            <label for="confirmPassword" class="label">Confirmar senha</label>
+                            <input 
+                                type="password" 
+                                id="confirmPassword" 
+                                class="input" 
+                                placeholder="••••••••" 
+                                required
+                                minlength="6"
+                            >
+                        </div>
+
+                        <button type="submit" class="btn btn-gradient btn-full" id="cadastroBtn">
+                            Criar conta
+                        </button>
+                    </form>
+
+                    <div class="footer-links">
+                        <p class="link-text">
+                            Já tem uma conta? 
+                            <a href="login.html" class="link">Fazer login</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast hidden">
+        <div class="toast-content">
+            <h3 id="toastTitle" class="toast-title"></h3>
+            <p id="toastDescription" class="toast-description"></p>
+        </div>
+    </div>
+
+    <script src="cadastro.js"></script>
+</body>
+</html>
