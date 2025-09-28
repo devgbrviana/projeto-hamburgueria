@@ -1,5 +1,3 @@
-# apps/usuario/route_usuario.py
-
 from flask import request, jsonify, Blueprint
 from werkzeug.security import generate_password_hash
 from apps.app import db_serv
