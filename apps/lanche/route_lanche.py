@@ -1,77 +1,59 @@
 from flask import Blueprint, request, jsonify
-import lanche.model_lanche as modLan
+from apps.lanche.model_lanche import Lanche 
+from apps.app import db_serv 
 
 bd_Lanche = Blueprint('Lanche', __name__)
 
 @bd_Lanche.route("/lanche", methods=["GET"])
 def listar_lanche():
     try:
-        lanche = modLan.listarLanche()
-        return jsonify(lanche)
+        lanches_query = Lanche.query.all()
+        lanches_lista = [lanche.to_dict() for lanche in lanches_query]
+        return jsonify(lanches_lista), 200
     except Exception as e:
-        return {"Erro": str(e)},400
-    
-@bd_Lanche.route("/lanche",methods=["POST"])
-def criar_lanche():
-    try:
-        dados_lanche = request.get_json()
-        
-        if not dados_lanche or 'id' not in dados_lanche:
-            return jsonify ({"Erro": modLan.LancheSemId().msg}), 400
-        
-        if not dados_lanche or 'nome' not in dados_lanche:
-            return jsonify({"Erro": str(modLan.LancheSemNome().msg)}), 400
-        
-        if not dados_lanche or 'descricao' not in dados_lanche:
-            return jsonify ({"Erro": modLan.LancheSemDescricao().msg}), 400
-        
-        if not dados_lanche or 'preco' not in dados_lanche:
-            return jsonify ({"Erro": modLan.LancheSemPreco().msg}), 400
-        
-        lanche_id = int(dados_lanche["id"])
+        return jsonify({"Erro": f"Erro interno do servidor: {str(e)}"}), 500
 
-        if modLan.lancheExiste(lanche_id):
-            return jsonify ({
-                "Erro": "Conflito",
-                "Descrição": modLan.LancheJaExiste().msg
-            }), 409
-        
-        novo_lanche = modLan.Lanche(
-            id=lanche_id,
-            nome=dados_lanche["nome"],
-            preco=float(dados_lanche["preco"]),
-            descricao=dados_lanche["descricao"]
+@bd_Lanche.route("/lanche", methods=["POST"])
+def criar_lanche():
+    dados = request.get_json()
+    if not dados or 'id' not in dados or 'nome' not in dados or 'preco' not in dados:
+        return jsonify({"Erro": "Campos 'id', 'nome' e 'preco' são obrigatórios."}), 400
+
+    if Lanche.query.get(dados['id']):
+        return jsonify({"Erro": f"Lanche com ID {dados['id']} já existe."}), 409
+
+    try:
+        novo_lanche = Lanche(
+            id=int(dados['id']),
+            nome=dados['nome'],
+            preco=float(dados['preco']),
+            descricao=dados.get('descricao', '') 
         )
 
-        modLan.criarLanche(novo_lanche)
-        return jsonify ({"Mensagem": "Lanche criado com sucesso!"}), 201
-    
-    except ValueError:
-        return jsonify ({"Erro": "Requisição inválida", "Detalhes": "O 'id' ou 'preco' deve ser um número válido."}), 400
-    
-    except Exception as e:
-        return jsonify({
-            "Erro": "Erro interno do servidor",
-            "Detalhes": str(e)
-            }), 500
+        db_serv.session.add(novo_lanche)
+        db_serv.session.commit()
+        
+        return jsonify({"Mensagem": "Lanche criado com sucesso!"}), 201
 
-    except modLan.CadastroDeLancheFalhado as cdt:
-        return jsonify({
-            "Erro": "Falha ao cadastrar lancher",
-            "Detalhes": str(cdt)
-        }), 400
-    
+    except ValueError:
+        return jsonify({"Erro": "Requisição inválida. 'id' e 'preco' devem ser números."}), 400
+    except Exception as e:
+        db_serv.session.rollback()
+        return jsonify({"Erro": f"Erro interno do servidor: {str(e)}"}), 500
+
 @bd_Lanche.route("/lanche/<int:id_lanche>", methods=["DELETE"])
 def deletar_lanche(id_lanche):
     try:
-        lanche = modLan.db_serv.session.query(modLan.Lanche).get(id_lanche)
-        if lanche is None:
-            return {"Mensagem": modLan.LancheNaoExiste().msg}, 404
-        else:
-            modLan.deletarLanche(id_lanche)
-            return jsonify ({"Mensagem": "Lanche deletado com sucesso!"}),200
+        lanche_para_deletar = Lanche.query.get(id_lanche)
+
+        if lanche_para_deletar is None:
+            return jsonify({"Mensagem": "Lanche não encontrado."}), 404
+        
+        db_serv.session.delete(lanche_para_deletar)
+        db_serv.session.commit()
+        
+        return jsonify({"Mensagem": "Lanche deletado com sucesso!"}), 200
+
     except Exception as e:
-        return jsonify({
-            "Erro": "Erro interno do servidor",
-            "Detalhes": str(e)
-            }), 500
+        db_serv.session.rollback()
+        return jsonify({"Erro": f"Erro interno do servidor: {str(e)}"}), 500

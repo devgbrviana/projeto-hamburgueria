@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Code Burger</title>
+    <link rel="stylesheet" href="assets/style.css"> 
+    <link rel="stylesheet" href="style.css"> 
+    
+    <style>
+        .hero, .search, main, footer {
+            display: none;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .page-container {
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">Code <span>•</span> Burger</a>
+            </div>
+            <nav>
+                <ul class="leftside">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="">Burgers</a></li>
+                    <li><a href="">Contato</a></li>
+                </ul>
+                <div class="rightside">
+                    <a href="" class="button">Fazer pedido</a>
+                </div>
+                <div class="rightside">
+                    <a href="login.html" class="button">Login</a>
+                </div>
+                <div class="rightside">
+                    <a href="cadastro.html" class="button">Cadastro</a>
+                </div>
+            </nav>
+            <div class="menu">
+                <div class="menu-icon">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-container">
+        <div class="form-wrapper">
+            <div class="header-section">
+                <img src="logoicone/logo_codeburguer.png" alt="Code Burger" class="logo">
+                <h1 class="main-title">Code Burger</h1>
+                <p class="subtitle">Entre na sua conta para continuar</p>
+            </div>
+
+            <div class="form-card">
+                <div class="card-header">
+                    <h2 class="card-title">Login</h2>
+                    <p class="card-description">Digite suas credenciais para acessar</p>
+                </div>
+                
+                <div class="card-content">
+                    <form id="loginForm" class="form">
+                        <div class="input-group">
+                            <label for="email" class="label">Email</label>
+                            <input type="email" id="email" class="input" placeholder="seu@email.com" required>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="password" class="label">Senha</label>
+                            <input type="password" id="password" class="input" placeholder="••••••••" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-gradient btn-full" id="loginBtn">
+                            Entrar
+                        </button>
+                    </form>
+
+                    <div class="footer-links">
+                        <p class="link-text">
+                            Não tem uma conta? 
+                            <a href="cadastro.html" class="link">Cadastre-se</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast hidden">
+        <div class="toast-content">
+            <h3 id="toastTitle" class="toast-title"></h3>
+            <p id="toastDescription" class="toast-description"></p>
+        </div>
+    </div>
+
+    <script src="javascr.js/login.js"></script>
+</body>
+</html>

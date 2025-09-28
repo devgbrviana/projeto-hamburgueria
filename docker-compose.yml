@@ -22,7 +22,9 @@ services:
   api:
     build: .
     ports:
-      - 5002:5002
+      - "5002:5002"
+    volumes:
+      - ./:/app
     depends_on:
       db:
         condition: service_healthy
