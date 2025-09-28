@@ -1,12 +1,7 @@
-# apps/init_db.py
-
-# 1. Importa o app e o db_serv do nosso arquivo central
 from apps.app import app, db_serv 
-# Importa os modelos usando o caminho completo a partir de 'apps'
 from apps.lanche.model_lanche import Lanche
 from apps.usuario.model_usuario import Usuario
 
-# 2. Função para popular o banco com dados iniciais (seed)
 def seed_database():
     """Popula a tabela de lanches com dados de exemplo."""
     lanches_de_exemplo = [
@@ -38,7 +33,6 @@ def seed_database():
 
     print("Inserindo dados de exemplo de lanches...")
     for dados_lanche in lanches_de_exemplo:
-        # Verifica se o lanche já existe para não duplicar
         lanche_existente = Lanche.query.get(dados_lanche["id"])
         if not lanche_existente:
             novo_lanche = Lanche(**dados_lanche)
@@ -48,14 +42,11 @@ def seed_database():
     db_serv.session.commit()
     print("Dados de exemplo inseridos com sucesso.")
 
-# 3. Função principal de inicialização
 def init():
     """
     Função principal que apaga, cria e popula as tabelas do banco de dados.
     ATENÇÃO: Este processo apaga todos os dados existentes!
     """
-    # O app.app_context() é necessário para que o SQLAlchemy
-    # saiba com qual aplicação e banco de dados ele deve trabalhar.
     with app.app_context():
         print("--- INICIANDO PROCESSO DE INICIALIZAÇÃO DO BANCO DE DADOS ---")
 

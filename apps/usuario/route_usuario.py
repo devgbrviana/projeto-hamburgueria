@@ -3,7 +3,7 @@
 from flask import request, jsonify, Blueprint
 from werkzeug.security import generate_password_hash
 from apps.app import db_serv
-from apps.usuario.model_usuario import Usuario # <-- CORRIGIDO AQUI
+from apps.usuario.model_usuario import Usuario 
 
 bd_usuario = Blueprint('usuario', __name__)
 
@@ -41,21 +41,12 @@ def cadastrar_usuario():
         db_serv.session.rollback()
         print(f"Erro ao salvar usuário: {e}")
         return jsonify({"erro": "Erro interno ao criar usuário."}), 500
-    
-
-# Cole esta nova função no seu arquivo apps/usuario/route_usuario.py
 
 @bd_usuario.route('/', methods=['GET'])
 def listar_usuarios():
     try:
-        # Busca todos os registros da tabela Usuario
         usuarios = Usuario.query.all()
-        
-        # Converte a lista de objetos Usuario para uma lista de dicionários
-        # usando o método to_dict() que já temos no modelo
         lista_de_usuarios = [usuario.to_dict() for usuario in usuarios]
-        
-        # Retorna a lista em formato JSON
         return jsonify(lista_de_usuarios), 200
         
     except Exception as e:

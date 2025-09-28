@@ -11,7 +11,6 @@ function showToast(title, description) {
         toast.classList.add('show');
     }, 10);
     
-    // Esconde a notificação automaticamente após 3 segundos
     setTimeout(() => {
         hideToast();
     }, 3000);
@@ -25,7 +24,6 @@ function hideToast() {
     }, 300);
 }
 
-// Funções de validação
 function validateEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -50,14 +48,12 @@ function formatPhone(phone) {
     return cleanPhone;
 }
 
-// Formatação do telefone enquanto digita
 document.getElementById('telefone').addEventListener('input', function(e) {
     e.target.value = formatPhone(e.target.value);
 });
 
-// Manipulação do formulário de cadastro
 document.getElementById('cadastroForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // Impede o recarregamento da página
+    e.preventDefault(); 
     
     const nome = document.getElementById('nome').value.trim();
     const email = document.getElementById('email').value.trim();
@@ -67,7 +63,7 @@ document.getElementById('cadastroForm').addEventListener('submit', function(e) {
     const confirmPassword = document.getElementById('confirmPassword').value;
     const cadastroBtn = document.getElementById('cadastroBtn');
     
-    // Validações dos campos
+   
     if (!nome || !email || !telefone || !password || !confirmPassword) {
         showToast('Erro', 'Por favor, preencha todos os campos');
         return;
@@ -93,12 +89,11 @@ document.getElementById('cadastroForm').addEventListener('submit', function(e) {
         return;
     }
     
-    // Ativa o estado de "carregando" no botão
+    
     cadastroBtn.textContent = 'Criando conta...';
     cadastroBtn.classList.add('loading');
     cadastroBtn.disabled = true;
     
-    // **CORREÇÃO:** A chamada fetch agora é imediata, sem o setTimeout
     fetch('http://127.0.0.1:5002/usuario/cadastro', {
         method: 'POST',
         headers: {
@@ -109,14 +104,13 @@ document.getElementById('cadastroForm').addEventListener('submit', function(e) {
             email: email,
             telefone: telefone,
             endereco: endereco,
-            senha: password // Envia a chave 'senha' para o backend
+            senha: password 
         })
     })
     .then(response => response.json())
     .then(data => {
         if (data.mensagem) {
             showToast('Conta criada!', data.mensagem);
-            // Redireciona para o login após o sucesso
             setTimeout(() => {
                 window.location.href = 'login.html';
             }, 2000);
@@ -129,14 +123,13 @@ document.getElementById('cadastroForm').addEventListener('submit', function(e) {
         showToast('Erro de Conexão', 'Não foi possível conectar ao servidor.');
     })
     .finally(() => {
-        // Este bloco executa sempre, resetando o botão
         cadastroBtn.textContent = 'Criar conta';
         cadastroBtn.classList.remove('loading');
         cadastroBtn.disabled = false;
     });
 });
 
-// Fecha a notificação se clicar fora dela
+
 document.addEventListener('click', function(e) {
     const toast = document.getElementById('toast');
     if (!toast.contains(e.target) && toast.classList.contains('show')) {
@@ -144,7 +137,6 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Melhorias de usabilidade
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('nome').focus();
     
@@ -163,7 +155,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Validação em tempo real da confirmação de senha
 document.getElementById('confirmPassword').addEventListener('input', function(e) {
     const password = document.getElementById('password').value;
     const confirmPassword = e.target.value;

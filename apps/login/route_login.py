@@ -1,8 +1,6 @@
-# apps/login/route_login.py
-
 from flask import request, jsonify, Blueprint
 from apps.usuario.model_usuario import Usuario
-from apps.app import db_serv # <-- Adicionado por consistência
+from apps.app import db_serv 
 
 bd_login = Blueprint('login', __name__)
 
