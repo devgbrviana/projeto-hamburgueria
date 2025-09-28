@@ -27,6 +27,12 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # 3. Cria a instância do SQLAlchemy e a conecta ao app
 db_serv = SQLAlchemy(app)
 
+
+@app.route("/teste")
+def rota_de_teste():
+    return "A rota de teste está a funcionar!", 200
+
+
 # 4. IMPORTANTE: Importa os blueprints DEPOIS que 'app' e 'db_serv' foram criados
 from apps.lanche.route_lanche import bd_Lanche
 from apps.usuario.route_usuario import bd_usuario

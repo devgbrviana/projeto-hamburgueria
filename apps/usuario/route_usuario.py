@@ -14,6 +14,7 @@ def cadastrar_usuario():
     nome = data.get('nome')
     email = data.get('email')
     telefone = data.get('telefone')
+    endereco = data.get('endereco') 
     senha = data.get('senha')
 
     if not all([nome, email, senha]):
@@ -28,6 +29,7 @@ def cadastrar_usuario():
         nome=nome,
         email=email,
         telefone=telefone,
+        endereco=endereco,
         senha_hash=senha_hash
     )
 
@@ -39,3 +41,23 @@ def cadastrar_usuario():
         db_serv.session.rollback()
         print(f"Erro ao salvar usuário: {e}")
         return jsonify({"erro": "Erro interno ao criar usuário."}), 500
+    
+
+# Cole esta nova função no seu arquivo apps/usuario/route_usuario.py
+
+@bd_usuario.route('/', methods=['GET'])
+def listar_usuarios():
+    try:
+        # Busca todos os registros da tabela Usuario
+        usuarios = Usuario.query.all()
+        
+        # Converte a lista de objetos Usuario para uma lista de dicionários
+        # usando o método to_dict() que já temos no modelo
+        lista_de_usuarios = [usuario.to_dict() for usuario in usuarios]
+        
+        # Retorna a lista em formato JSON
+        return jsonify(lista_de_usuarios), 200
+        
+    except Exception as e:
+        print(f"Erro ao listar usuários: {e}")
+        return jsonify({"erro": "Erro interno ao buscar usuários."}), 500

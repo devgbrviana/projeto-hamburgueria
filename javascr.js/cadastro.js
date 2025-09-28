@@ -62,6 +62,7 @@ document.getElementById('cadastroForm').addEventListener('submit', function(e) {
     const nome = document.getElementById('nome').value.trim();
     const email = document.getElementById('email').value.trim();
     const telefone = document.getElementById('telefone').value.trim();
+    const endereco = document.getElementById('endereco').value.trim();
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
     const cadastroBtn = document.getElementById('cadastroBtn');
@@ -107,6 +108,7 @@ document.getElementById('cadastroForm').addEventListener('submit', function(e) {
             nome: nome,
             email: email,
             telefone: telefone,
+            endereco: endereco,
             senha: password // Envia a chave 'senha' para o backend
         })
     })

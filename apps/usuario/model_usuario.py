@@ -7,6 +7,7 @@ class Usuario(db_serv.Model):
     nome = db_serv.Column(db_serv.String(100), nullable=False)
     email = db_serv.Column(db_serv.String(100), unique=True, nullable=False)
     telefone = db_serv.Column(db_serv.String(20), nullable=True)
+    endereco = db_serv.Column(db_serv.String(200), nullable=True)
     senha_hash = db_serv.Column(db_serv.String(256), nullable=False) # Coluna para senha
 
     # Método para facilitar a conversão para dicionário/JSON
@@ -15,7 +16,8 @@ class Usuario(db_serv.Model):
             'id': self.id,
             'nome': self.nome,
             'email': self.email,
-            'telefone': self.telefone
+            'telefone': self.telefone,
+            'endereco': self.endereco
         }
 
     # Método para verificar a senha na hora do login
