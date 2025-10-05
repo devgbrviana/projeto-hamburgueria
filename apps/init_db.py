@@ -1,11 +1,9 @@
-from apps.app import create_app        
-from apps.extensions import db_serv   
-from apps.lanche.model_lanche import Lanche 
-app = create_app()
-with app.app_context():
-    print("Iniciando a criação do banco de dados...")
-    db_serv.create_all()
-    print("Tabelas criadas com sucesso.")
+from apps.app import app, db_serv 
+from apps.lanche.model_lanche import Lanche
+from apps.usuario.model_usuario import Usuario
+
+def seed_database():
+    """Popula a tabela de lanches com dados de exemplo."""
     lanches_de_exemplo = [
         {
             "id": 1, "nome": "Java Burguer", "preco": 31.99,
@@ -32,13 +30,35 @@ with app.app_context():
             "descricao": "Os novos sanduíches contêm dois hambúrgueres de carne 100% bovina, com um peso total de 227,6g. Além da carne, a receita inclui a exclusiva maionese com sabor de carne defumada, fatias de bacon, queijo processado, molho especial e cebola ao molho shoyu."
         }
     ]
-    print("Verificando e inserindo dados de exemplo...")
+
+    print("Inserindo dados de exemplo de lanches...")
     for dados_lanche in lanches_de_exemplo:
-        lanche_existente = db_serv.session.get(Lanche, dados_lanche["id"])
+        lanche_existente = Lanche.query.get(dados_lanche["id"])
         if not lanche_existente:
-            novo_lanche = Lanche(**dados_lanche) 
+            novo_lanche = Lanche(**dados_lanche)
             db_serv.session.add(novo_lanche)
             print(f"Adicionado: {dados_lanche['nome']}")
+            
     db_serv.session.commit()
-    print("Dados de exemplo inseridos com sucesso!")
-    print("Banco de dados pronto para uso.")
+    print("Dados de exemplo inseridos com sucesso.")
+
+def init():
+    """
+    Função principal que apaga, cria e popula as tabelas do banco de dados.
+    ATENÇÃO: Este processo apaga todos os dados existentes!
+    """
+    with app.app_context():
+        print("--- INICIANDO PROCESSO DE INICIALIZAÇÃO DO BANCO DE DADOS ---")
+
+        print("1. Apagando tabelas antigas (se existirem)...")
+        db_serv.drop_all()
+        print("   -> Tabelas antigas apagadas.")
+
+        print("2. Criando novas tabelas com base nos modelos Python...")
+        db_serv.create_all()
+        print("   -> Tabelas criadas com sucesso.")
+
+        print("3. Populando o banco com dados iniciais...")
+        seed_database()
+        
+        print("--- BANCO DE DADOS PRONTO PARA USO! ---")

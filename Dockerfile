@@ -10,7 +10,7 @@ COPY . .
 
 EXPOSE 5002
 
-CMD ["python", "-m", "apps.app"]
+CMD ["python", "run.py"]
 
 #-------------------------------------------------------------------#
 #                       Ordens dos comandos                         #

@@ -33,9 +33,11 @@ body {
     width: 100%;
     margin: auto;
     max-width: 1200px;
-    padding: 0 20px;
+    padding: 0px 20px;
 }
-
+.container .rightside{
+    margin: 10px;
+}
 .logo a {
     font-family: 'Calistoga';
     font-size: 36px;
@@ -276,7 +278,10 @@ header .menu-icon div {
     font-weight: bold;
     color: #FE6A0F;
 }
-
+.product-item .product-description{
+    font-size: 18px;
+    color: #FFF;
+}
 /* FOOTER */
 footer {
     background-color: #1F1F1F;

@@ -1,4 +1,4 @@
-from apps.extensions import db_serv
+from apps.app import db_serv
 
 class Lanche (db_serv.Model):
     __tablename__ = "lanches"
@@ -22,7 +22,10 @@ class Lanche (db_serv.Model):
             "nome": self.nome,
             "preco": self.preco,
             "descricao": self.descricao
-        }      
+        }
+        
+### ===== Classe de exceção ===== ###
+
 class LancheJaExiste(Exception):
     def __init__(self, msg="Erro, já existe um lanche com esse id!"):
         self.msg = msg
@@ -57,6 +60,10 @@ class LancheSemDescricao(Exception):
     def __init__(self, msg="Erro! Preencha o campo 'Descrição' do lanche"):
         self.msg = msg
         super().__init__(msg)
+
+
+
+### ===== Funções auxiliares ===== ###
 
 def criarLanche(nv_dict):
     db_serv.session.add(nv_dict)
