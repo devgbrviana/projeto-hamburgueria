@@ -7,6 +7,38 @@ bd_usuario = Blueprint('usuario', __name__)
 
 @bd_usuario.route('/cadastro', methods=['POST'])
 def cadastrar_usuario():
+    """
+    Cadastrar um novo usuário
+    ---
+    tags:
+      - Usuários
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            nome:
+              type: string
+            email:
+              type: string
+            telefone:
+              type: string
+            endereco:
+              type: string
+            senha:
+              type: string
+    responses:
+      201:
+        description: Usuário criado com sucesso
+      400:
+        description: Todos os campos obrigatórios (nome, email, senha) devem ser preenchidos
+      409:
+        description: Este email já está cadastrado
+      500:
+        description: Erro interno ao criar usuário
+    """
     data = request.get_json()
 
     nome = data.get('nome')
@@ -40,8 +72,35 @@ def cadastrar_usuario():
         print(f"Erro ao salvar usuário: {e}")
         return jsonify({"erro": "Erro interno ao criar usuário."}), 500
 
+
 @bd_usuario.route('/', methods=['GET'])
 def listar_usuarios():
+    """
+    Listar todos os usuários
+    ---
+    tags:
+      - Usuários
+    responses:
+      200:
+        description: Lista de usuários
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              nome:
+                type: string
+              email:
+                type: string
+              telefone:
+                type: string
+              endereco:
+                type: string
+      500:
+        description: Erro interno ao buscar usuários
+    """
     try:
         usuarios = Usuario.query.all()
         lista_de_usuarios = [usuario.to_dict() for usuario in usuarios]

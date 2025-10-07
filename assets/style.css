@@ -368,3 +368,15 @@ footer .copyrights a:hover {
         grid-template-columns: 1fr;
     }
 }
+
+.product-description {
+    font-size: 13px;       
+    color: #888;           
+    margin-top: 8px;       
+    margin-bottom: 8px;    
+    display: -webkit-box;
+    -webkit-line-clamp: 3; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

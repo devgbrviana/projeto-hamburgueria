@@ -6,6 +6,48 @@ bd_login = Blueprint('login', __name__)
 
 @bd_login.route('/login', methods=['POST'])
 def logar():
+    """
+    Realizar login de usuário
+    ---
+    tags:
+      - Login
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+            senha:
+              type: string
+    responses:
+      200:
+        description: Login bem-sucedido
+        schema:
+          type: object
+          properties:
+            mensagem:
+              type: string
+            usuario:
+              type: object
+              properties:
+                id:
+                  type: integer
+                nome:
+                  type: string
+                email:
+                  type: string
+                telefone:
+                  type: string
+                endereco:
+                  type: string
+      400:
+        description: Email e senha são obrigatórios
+      401:
+        description: Email ou senha incorretos
+    """
     data = request.get_json()
     email = data.get('email')
     senha = data.get('senha')
