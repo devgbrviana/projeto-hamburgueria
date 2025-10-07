@@ -23,7 +23,7 @@ Siga os passos abaixo para configurar e rodar a API localmente:
 ### Passos
 1.  **Clone o repositório:**
     ```bash
-    git clone [https://www.dio.me/articles/enviando-seu-projeto-para-o-github](https://www.dio.me/articles/enviando-seu-projeto-para-o-github)
+    git clone [[https://www.dio.me/articles/enviando-seu-projeto-para-o-github](https://www.dio.me/articles/enviando-seu-projeto-para-o-github)](https://github.com/devgbrviana/projeto-hamburgueria.git)
     cd [pasta do projeto]
     ```
 2.  **Configurar o Banco de Dados:**
