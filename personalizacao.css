@@ -1,0 +1,204 @@
+/* ===== Reset ===== */
+@import url('https://fonts.googleapis.com/css2?family=Calistoga&family=Inter:wght@100..900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  font-family: 'Inter';
+  background-color: #141414;
+  color: #FFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+}
+
+/* ===== Cabeçalho ===== */
+.header {
+  width: 100%;
+  padding: 20px 40px;
+  background: #1c1c1c;
+}
+
+.header h1 {
+  font-family: 'Calistoga';
+    font-size: 36px;
+    color: #FFF;
+    text-decoration: none;
+}
+
+
+.header span {
+  color: #FE6A0F;
+}
+
+/* ===== Container principal ===== */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 60px;
+  margin-top: 40px;
+  width: 90%;
+  max-width: 1200px;
+}
+
+/* ===== Coluna do produto ===== */
+.produto {
+  flex: 1;
+  text-align: center;
+}
+
+.produto img {
+  width: 280px;
+  height: auto;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
+.produto h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.produto .descricao {
+  font-size: 15px;
+  color: #ccc;
+  margin-bottom: 10px;
+}
+
+.produto .preco {
+  font-size: 20px;
+  font-weight: bold;
+  color:  #FE6A0F;
+  margin-bottom: 15px;
+}
+
+.btn-add {
+  background-color:  #FE6A0F;
+  color: #1c1c1c;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-add:hover {
+  background-color:  #FE6A0F;
+}
+
+/* ===== Coluna dos extras ===== */
+.extras {
+  flex: 1.2;
+  background: #2b2b2b;
+  padding: 25px;
+  border-radius: 12px;
+}
+
+.extras h3 {
+  margin-bottom: 20px;
+  color:  #FE6A0F;
+  text-align: center;
+  font-size: 20px;
+}
+
+.lista-extras {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.lista-extras li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #3a3a3a;
+  padding: 10px 15px;
+  border-radius: 10px;
+}
+
+.lista-extras li img {
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+}
+
+.lista-extras li span {
+  flex: 1;
+  font-size: 15px;
+  color: #fff;
+}
+
+.extra-price {
+  color:  #FE6A0F;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+/* ===== Contador ===== */
+.contador {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.contador button {
+  background:  #FE6A0F;
+  border: none;
+  color: #1c1c1c;
+  font-size: 18px;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.contador button:hover {
+  background:  #FE6A0F;
+}
+
+.contador input {
+  width: 50px;
+  text-align: center;
+  border: none;
+  border-radius: 4px;
+  padding: 5px;
+  font-size: 16px;
+}
+
+/* ===== Botão salvar ===== */
+.btn-save {
+  background:  #FE6A0F;
+  color: #1c1c1c;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: block;
+  margin: 25px auto 0;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn-save:hover {
+  background:  #FE6A0F;
+}
+
+/* ===== Rodapé ===== */
+.footer {
+  margin-top: 60px;
+  padding: 15px 0;
+  text-align: center;
+  color:  #FE6A0F;
+}
