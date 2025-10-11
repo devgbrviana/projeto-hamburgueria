@@ -29,10 +29,12 @@ function exibirLanchesNaPagina(lanches) {
     }
     container.innerHTML = '';
     lanches.forEach(lanche => {
+        const imageUrl = `./assets/burgers/burger${lanche.id}.png`;
         const cardHTML = `
-            <a href="#" class="product-item">
+            <a href="#" class="product-item" 
+               onclick="selecionarLanche('${lanche.nome}', '${imageUrl}', '${lanche.preco}')"> 
                 <div class="photo">
-                    <img src="./assets/burgers/burger${lanche.id}.png" alt="${lanche.nome}" />
+                    <img src="${imageUrl}" alt="${lanche.nome}" />
                 </div>
                 <div class="info">
                     <div class="product-category">Tradicional</div>
@@ -44,4 +46,17 @@ function exibirLanchesNaPagina(lanches) {
         `;
         container.insertAdjacentHTML('beforeend', cardHTML);
     });
+}
+
+
+function selecionarLanche(nome, imagemUrl, preco) {
+    const lancheSelecionado = {
+        nome: nome,
+        imagem: imagemUrl,
+        preco: preco
+    };
+
+    localStorage.setItem('lancheParaPersonalizar', JSON.stringify(lancheSelecionado));
+
+    window.location.href = 'personalizacao.html';
 }
