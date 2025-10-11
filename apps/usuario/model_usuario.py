@@ -8,7 +8,7 @@ class Usuario(db_serv.Model):
     email = db_serv.Column(db_serv.String(100), unique=True, nullable=False)
     telefone = db_serv.Column(db_serv.String(20), nullable=True)
     endereco = db_serv.Column(db_serv.String(200), nullable=True)
-    senha_hash = db_serv.Column(db_serv.String(256), nullable=False) # Coluna para senha
+    senha_hash = db_serv.Column(db_serv.String(256), nullable=False) 
 
     def to_dict(self):
         return {
