@@ -62,3 +62,5 @@ def init():
         seed_database()
         
         print("--- BANCO DE DADOS PRONTO PARA USO! ---")
+if __name__ == "__main__":
+    init()

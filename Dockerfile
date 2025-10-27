@@ -20,7 +20,7 @@ CMD ["python", "run.py"]
 #       ele irá reconstruir a imagem do zero, garante               #
 #       que todas as alterações no código sejam salvas              #
 #                                                                   #
-#       2 - 'docker-compose run -- api python apps/init_db.py'      #
+#       2 - 'docker-compose run --rm api python -m apps.init_db'    #
 #                                                                   #
 #       Esse comando irá inicializar o banco de dados,              #
 #       executando o script init_db.py que cira as tabelas no       #
