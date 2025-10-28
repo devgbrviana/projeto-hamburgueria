@@ -204,7 +204,11 @@ body {
     cursor: pointer;
     font-weight: bold;
     font-size: 16px;
+    /* Adicione apenas a margem que você precisa, que é a de baixo para separar do botão "Continuar Comprando" */
     margin-bottom: 15px;
+    text-align: center; /* Garante que o texto fique centralizado no link */
+    text-decoration: none; /* Remove o sublinhado padrão de links */
+    display: block; /* Faz o link se comportar como um bloco, respeitando o width: 100% */
     transition: background-color 0.3s;
 }
 
@@ -213,13 +217,22 @@ body {
 }
 
 .continuar-comprando {
+    width: 100%;
+    background: #FE6A0F; 
+    color: #1c1c1c;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 15px;
+    text-align: center; 
+    text-decoration: none; 
     display: block;
-    text-align: center;
-    color: #ccc;
-    text-decoration: none;
-    font-size: 14px;
+    transition: background-color 0.3s;
 }
 
 .continuar-comprando:hover {
-    color: #FE6A0F;
+   background-color: #e05a0d;
 }
