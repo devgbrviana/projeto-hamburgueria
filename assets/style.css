@@ -15,16 +15,17 @@ body {
     color: #FFF;
 }
 
-.hero .container .rightside img{
+.hero .container .rightside img {
     position: relative;
     animation: flutuar 2s ease-in-out infinite alternate;
 }
 
-@keyframes flutuar{
-    0%{
+@keyframes flutuar {
+    0% {
         top: 0;
     }
-    100%{
+
+    100% {
         top: 30px;
     }
 }
@@ -35,9 +36,11 @@ body {
     max-width: 1200px;
     padding: 0px 20px;
 }
-.container .rightside{
+
+.container .rightside {
     margin: 10px;
 }
+
 .logo a {
     font-family: 'Calistoga';
     font-size: 36px;
@@ -165,29 +168,38 @@ header .menu-icon div {
 .hero .button:hover {
     opacity: 0.8;
 }
+
 .cart-icon-link {
-    position: relative; /* Essencial para posicionar o badge */
-    display: inline-block; /* Garante que o link se ajuste ao conteúdo */
+    position: relative;
+    /* Essencial para posicionar o badge */
+    display: inline-block;
+    /* Garante que o link se ajuste ao conteúdo */
 }
+
 .cart-badge {
     /* Posicionamento */
     position: absolute;
-    top: -8px;      /* Move para cima */
-    right: -8px;    /* Move para a direita */
+    top: -8px;
+    /* Move para cima */
+    right: -8px;
+    /* Move para a direita */
 
     /* Aparência */
-    background-color: #e74c3c; /* Um vermelho para destaque */
+    background-color: #e74c3c;
+    /* Um vermelho para destaque */
     color: white;
-    border-radius: 50%; /* Deixa o formato redondo */
-    padding: 2px 6px;   /* Espaçamento interno */
+    border-radius: 50%;
+    /* Deixa o formato redondo */
+    padding: 2px 6px;
+    /* Espaçamento interno */
     font-size: 12px;
     font-weight: bold;
-    
+
     /* Centraliza o número dentro do círculo */
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     /* Garante um tamanho mínimo */
     min-width: 20px;
     min-height: 20px;
@@ -196,13 +208,15 @@ header .menu-icon div {
     /* Transição suave para quando o número aparecer */
     transition: transform 0.2s ease;
 }
+
 .cart-badge.hidden {
     display: none;
 }
+
 .cart-icon {
     font-size: 24px;
-    color: #1c1c1c; 
-    background-color: #FE6A0F; 
+    color: #1c1c1c;
+    background-color: #FE6A0F;
     padding: 8px 12px;
     border: 1px solid #FE6A0F;
     border-radius: 8px;
@@ -210,7 +224,7 @@ header .menu-icon div {
 }
 
 .cart-icon:hover {
-    filter: brightness(1.1); 
+    filter: brightness(1.1);
     cursor: pointer;
 }
 
@@ -293,13 +307,18 @@ header .menu-icon div {
 }
 
 .product-item .photo {
-    text-align: center;
     background-color: #2B2B2B;
-    padding-top: 30px;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
 
 .product-item .photo img {
-    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .product-item .info {
@@ -326,10 +345,12 @@ header .menu-icon div {
     font-weight: bold;
     color: #FE6A0F;
 }
-.product-item .product-description{
+
+.product-item .product-description {
     font-size: 18px;
     color: #FFF;
 }
+
 /* FOOTER */
 footer {
     background-color: #1F1F1F;
@@ -418,12 +439,12 @@ footer .copyrights a:hover {
 }
 
 .product-description {
-    font-size: 13px;       
-    color: #888;           
-    margin-top: 8px;       
-    margin-bottom: 8px;    
+    font-size: 13px;
+    color: #888;
+    margin-top: 8px;
+    margin-bottom: 8px;
     display: -webkit-box;
-    -webkit-line-clamp: 3; 
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
