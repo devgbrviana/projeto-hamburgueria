@@ -31,7 +31,7 @@ Siga os passos abaixo para configurar e rodar a API localmente:
     * Esses comandos irão inicializar o banco de dados e buildar a aplicação, executando o script init_db.py que cira as tabelas no MySQL.
       ```bash
       docker-compose build --no-cache api
-      docker-compose run -- api python apps/init_db.py
+      docker-compose run --rm api python -m apps.init_db
       ```
     * Rodar a Aplicação
     * Ele inicia a aplicação completa, subindo o contâiner
