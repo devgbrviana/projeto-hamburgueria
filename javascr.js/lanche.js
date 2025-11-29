@@ -45,12 +45,39 @@ function exibirLanchesNaPagina(lanches) {
     }
 
     lanches.forEach(lanche => {
-        const imageUrl = `./assets/burgers/burger${lanche.id}.png`;
+        
+        let pasta = '';
+        let prefixo = '';
+
+        switch (lanche.categoria) {
+            case 'Burgers':
+                pasta = 'burgers';
+                prefixo = 'burger'; // Ex: burger1.png
+                break;
+            case 'Pizza':
+                pasta = 'pizza';
+                prefixo = 'pizza'; // Ex: pizza10.png
+                break;
+            case 'Vegetariano':
+                pasta = 'vegetariano'; //
+                prefixo = 'vegetariano'; // Ex: vegetariano20.png
+                break;
+            case 'Kids':
+                pasta = 'kids'; 
+                prefixo = 'kids'; // Ex: kids30.png
+                break;
+            default:
+                pasta = 'burgers';
+                prefixo = 'burger';
+        }
+
+        const imageUrl = `./assets/${pasta}/${prefixo}${lanche.id}.png`;
+
         const cardHTML = `
             <a href="#" class="product-item" 
                onclick="selecionarLanche('${lanche.nome}', '${imageUrl}', '${lanche.preco}')"> 
                 <div class="photo">
-                    <img src="${imageUrl}" alt="${lanche.nome}" />
+                    <img src="${imageUrl}" alt="${lanche.nome}" onerror="this.src='./assets/burgers/burger1.png'"/>
                 </div>
                 <div class="info">
                     <div class="product-category">${lanche.categoria}</div>
