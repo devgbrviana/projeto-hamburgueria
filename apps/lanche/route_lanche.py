@@ -82,7 +82,8 @@ def criar_lanche():
             id=int(dados['id']),
             nome=dados['nome'],
             preco=float(dados['preco']),
-            descricao=dados.get('descricao', '') 
+            descricao=dados.get('descricao', ''),
+            categoria=dados.get('categoria', 'Burgers') 
         )
 
         db_serv.session.add(novo_lanche)
