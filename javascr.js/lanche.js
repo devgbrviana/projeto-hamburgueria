@@ -1,3 +1,5 @@
+let todosOsLanches = [];
+
 document.addEventListener('DOMContentLoaded', () => {
     buscarLanches();
 });
@@ -9,9 +11,9 @@ async function buscarLanches() {
         if (!response.ok) {
             throw new Error(`Erro na rede: ${response.statusText}`);
         }
-        const lanches = await response.json();     
-        console.log('Dados recebidos da API:', lanches);
-        exibirLanchesNaPagina(lanches);
+        todosOsLanches = await response.json(); 
+        console.log('Dados recebidos da API:', todosOsLanches);
+        filtrarPorCategoria('Burgers');
 
     } catch (error) {
         console.error('Ocorreu um erro ao buscar os lanches:', error);
@@ -21,6 +23,14 @@ async function buscarLanches() {
         }
     }
 }
+
+function filtrarPorCategoria(categoriaDesejada) {
+    const lanchesFiltrados = todosOsLanches.filter(lanche => 
+        lanche.categoria.toLowerCase() === categoriaDesejada.toLowerCase()
+    );
+    exibirLanchesNaPagina(lanchesFiltrados);
+}
+
 function exibirLanchesNaPagina(lanches) {
     const container = document.getElementById('lista-lanches');
     if (!container) {
@@ -28,6 +38,12 @@ function exibirLanchesNaPagina(lanches) {
         return;
     }
     container.innerHTML = '';
+
+    if (lanches.length === 0) {
+        container.innerHTML = '<p style="color:white; text-align:center;">Nenhum item encontrado nesta categoria.</p>';
+        return;
+    }
+
     lanches.forEach(lanche => {
         const imageUrl = `./assets/burgers/burger${lanche.id}.png`;
         const cardHTML = `
@@ -37,7 +53,7 @@ function exibirLanchesNaPagina(lanches) {
                     <img src="${imageUrl}" alt="${lanche.nome}" />
                 </div>
                 <div class="info">
-                    <div class="product-category">Tradicional</div>
+                    <div class="product-category">${lanche.categoria}</div>
                     <div class="product-name">${lanche.nome}</div>
                     <div class="product-description">${lanche.descricao}</div> 
                     <div class="product-price">${Number(lanche.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</div>
