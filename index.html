@@ -10,7 +10,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 </head>
 
-<body>
+<body class="home-page">
+
+    <div id="loading-screen">
+        <div class="loading-logo">Code <span>•</span> Burger</div>
+    </div>
+
     <header>
         <div class="container">
             <div class="logo">
@@ -47,12 +52,12 @@
             </div>
         </div>
     </header>
+
     <section class="hero">
         <div class="container">
             <div class="leftside">
                 <h1>O Hamburguer mais delicioso!</h1>
-                <p>A primeira hamburgueria virtual que você faz o pedido online e come o burger através do computador.
-                </p>
+                <p>A primeira hamburgueria virtual que você faz o pedido online e come o burger através do computador.</p>
                 <a href="" class="button">Fazer pedido</a>
             </div>
             <div class="rightside">
@@ -60,6 +65,7 @@
             </div>
         </div>
     </section>
+
     <section class="search">
         <div class="container">
             <div class="title">Pesquise o seu<br />Hamburguer favorito!</div>
@@ -79,11 +85,13 @@
             </div>
         </div>
     </section>
+
     <main>
         <div class="container">
             <div class="products-grid" id="lista-lanches"></div>
         </div>
     </main>
+
     <footer>
         <div class="container">
             <div class="logo">
@@ -94,8 +102,22 @@
 
     <script src="javascr.js/global.js"></script>
     <script src="javascr.js/lanche.js" defer></script>
-
     <script src="javascr.js/index.js"></script>
-</body>
 
+    <script>
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loading-screen');
+            if(loader) {
+                setTimeout(() => {
+                    loader.classList.add('fade-out');
+                    document.body.classList.add('loaded'); 
+                }, 1500);
+
+                loader.addEventListener('transitionend', () => {
+                    loader.remove();
+                });
+            }
+        });
+    </script>
+</body>
 </html>
