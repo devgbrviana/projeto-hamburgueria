@@ -315,7 +315,6 @@ header nav .button {
     color: #888;
     margin-top: 8px;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }

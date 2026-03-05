@@ -20,11 +20,11 @@ services:
 
 #API
   api:
-    build: .
+    build: ./backend
     ports:
       - "5002:5002"
     volumes:
-      - ./:/app
+      - ./backend:/apps
     depends_on:
       db:
         condition: service_healthy

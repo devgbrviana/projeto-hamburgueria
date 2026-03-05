@@ -71,13 +71,13 @@ function exibirLanchesNaPagina(lanches) {
                 prefixo = 'burger';
         }
 
-        const imageUrl = `./assets/${pasta}/${prefixo}${lanche.id}.png`;
+        const imageUrl = `/frontend/assets/${pasta}/${prefixo}${lanche.id}.png`;
 
         const cardHTML = `
             <a href="#" class="product-item" 
                onclick="selecionarLanche('${lanche.nome}', '${imageUrl}', '${lanche.preco}')"> 
                 <div class="photo">
-                    <img src="${imageUrl}" alt="${lanche.nome}" onerror="this.src='./assets/burgers/burger1.png'"/>
+                    <img src="${imageUrl}" alt="${lanche.nome}" onerror="this.src='/frontend/assets/burgers/burger1.png'"/>
                 </div>
                 <div class="info">
                     <div class="product-category">${lanche.categoria}</div>
@@ -101,5 +101,5 @@ function selecionarLanche(nome, imagemUrl, preco) {
 
     localStorage.setItem('lancheParaPersonalizar', JSON.stringify(lancheSelecionado));
 
-    window.location.href = 'personalizacao.html';
+    window.location.href = '/frontend/pages/personalizacao.html';
 }
