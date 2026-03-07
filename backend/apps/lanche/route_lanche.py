@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from apps.lanche.model_lanche import Lanche 
-from apps.app import db_serv 
+from apps.extensions import db_serv 
 
 bd_Lanche = Blueprint('Lanche', __name__)
 

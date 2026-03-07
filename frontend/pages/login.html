@@ -1,33 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Code Burger</title>
     <link rel="shortcut icon" href="/frontend/logoicone/logo_codeburger.png" type="image/x-icon">
-    <link rel="stylesheet" href="/frontend/css/style.css"> 
-    <link rel="stylesheet" href="/frontend/css/style2.css"> 
-    
-    <style>
-        .hero, .search, main, footer {
-            display: none;
-        }
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        .page-container {
-            flex-grow: 1;
-        }
-    </style>
+    <link rel="stylesheet" href="/frontend/css/login_cadastro.css">
 </head>
+
 <body>
 
     <header>
         <div class="container">
             <div class="logo">
-                <a href="/frontend/pages/index.html">Code <span>•</span> Burger</a>
+                <a href="index.html" class="logo-link">
+                    <img src="/frontend/logoicone/logo_codeburger.png" alt="Code Burger">
+                    <span class="logo-text">Code <span class="logo-dot">•</span> Burger</span>
+                </a>
             </div>
             <nav>
                 <ul class="leftside">
@@ -37,21 +27,11 @@
                 </ul>
                 <div class="rightside">
                     <a href="" class="button">Fazer pedido</a>
-                </div>
-                <div class="rightside">
                     <a href="login.html" class="button">Login</a>
-                </div>
-                <div class="rightside">
                     <a href="cadastro.html" class="button">Cadastro</a>
                 </div>
             </nav>
-            <div class="menu">
-                <div class="menu-icon">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-            </div>
+
         </div>
     </header>
 
@@ -68,14 +48,14 @@
                     <h2 class="card-title">Login</h2>
                     <p class="card-description">Digite suas credenciais para acessar</p>
                 </div>
-                
+
                 <div class="card-content">
                     <form id="loginForm" class="form">
                         <div class="input-group">
                             <label for="email" class="label">Email</label>
                             <input type="email" id="email" class="input" placeholder="seu@email.com" required>
                         </div>
-                        
+
                         <div class="input-group">
                             <label for="password" class="label">Senha</label>
                             <input type="password" id="password" class="input" placeholder="••••••••" required>
@@ -88,7 +68,7 @@
 
                     <div class="footer-links">
                         <p class="link-text">
-                            Não tem uma conta? 
+                            Não tem uma conta?
                             <a href="/frontend/pages/cadastro.html" class="link">Cadastre-se</a>
                         </p>
                     </div>
@@ -104,6 +84,8 @@
         </div>
     </div>
 
-    <script src="/frontend/js/login.js"></script> <script src="/frontend/js/global.js"></script>
+    <script src="/frontend/js/login.js"></script>
+    <script src="/frontend/js/global.js"></script>
 </body>
+
 </html>

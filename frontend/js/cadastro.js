@@ -112,7 +112,7 @@ document.getElementById('cadastroForm').addEventListener('submit', function(e) {
         if (data.mensagem) {
             showToast('Conta criada!', data.mensagem);
             setTimeout(() => {
-                window.location.href = 'login.html';
+                window.location.href = `verificar.html?email=${encodeURIComponent(email)}`;
             }, 2000);
         } else {
             showToast('Erro no Cadastro', data.erro);

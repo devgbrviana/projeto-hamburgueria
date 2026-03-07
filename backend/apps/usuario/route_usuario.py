@@ -1,44 +1,14 @@
+import random
 from flask import request, jsonify, Blueprint
 from werkzeug.security import generate_password_hash
-from apps.app import db_serv
+from flask_mail import Message
+from apps.extensions import db_serv, mail 
 from apps.usuario.model_usuario import Usuario 
 
 bd_usuario = Blueprint('usuario', __name__)
 
 @bd_usuario.route('/cadastro', methods=['POST'])
 def cadastrar_usuario():
-    """
-    Cadastrar um novo usuário
-    ---
-    tags:
-      - Usuários
-    parameters:
-      - in: body
-        name: body
-        required: true
-        schema:
-          type: object
-          properties:
-            nome:
-              type: string
-            email:
-              type: string
-            telefone:
-              type: string
-            endereco:
-              type: string
-            senha:
-              type: string
-    responses:
-      201:
-        description: Usuário criado com sucesso
-      400:
-        description: Todos os campos obrigatórios (nome, email, senha) devem ser preenchidos
-      409:
-        description: Este email já está cadastrado
-      500:
-        description: Erro interno ao criar usuário
-    """
     data = request.get_json()
 
     nome = data.get('nome')
@@ -53,59 +23,68 @@ def cadastrar_usuario():
     if Usuario.query.filter_by(email=email).first():
         return jsonify({"erro": "Este email já está cadastrado."}), 409
 
+    # Gera o código OTP de 6 dígitos
+    codigo_otp = random.randint(100000, 999999)
     senha_hash = generate_password_hash(senha)
 
+    # Cria o usuário (is_active=False garante que ele não logue sem verificar)
     novo_usuario = Usuario(
         nome=nome,
         email=email,
         telefone=telefone,
         endereco=endereco,
-        senha_hash=senha_hash
+        senha_hash=senha_hash,
+        otp_secret=codigo_otp,
+        is_active=False 
     )
 
     try:
         db_serv.session.add(novo_usuario)
         db_serv.session.commit()
-        return jsonify({"mensagem": "Usuário criado com sucesso!"}), 201
-    except Exception as e:
-        db_serv.session.rollback()
-        print(f"Erro ao salvar usuário: {e}")
-        return jsonify({"erro": "Erro interno ao criar usuário."}), 500
 
+        # Envia o E-mail com o código
+        msg = Message("Ative sua conta - Code Burger",
+                      recipients=[email])
+        msg.body = f"Olá {nome}! Seu código de ativação é: {codigo_otp}"
+        mail.send(msg)
 
-@bd_usuario.route('/', methods=['GET'])
-def listar_usuarios():
-    """
-    Listar todos os usuários
-    ---
-    tags:
-      - Usuários
-    responses:
-      200:
-        description: Lista de usuários
-        schema:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: integer
-              nome:
-                type: string
-              email:
-                type: string
-              telefone:
-                type: string
-              endereco:
-                type: string
-      500:
-        description: Erro interno ao buscar usuários
-    """
-    try:
-        usuarios = Usuario.query.all()
-        lista_de_usuarios = [usuario.to_dict() for usuario in usuarios]
-        return jsonify(lista_de_usuarios), 200
+        return jsonify({"mensagem": "Usuário criado! Verifique seu e-mail para ativar."}), 201
         
     except Exception as e:
-        print(f"Erro ao listar usuários: {e}")
-        return jsonify({"erro": "Erro interno ao buscar usuários."}), 500
+        db_serv.session.rollback()
+        print(f"Erro no cadastro: {e}")
+        return jsonify({"erro": "Erro interno ao criar usuário."}), 500
+
+@bd_usuario.route('/verificar', methods=['POST'])
+def verificar_codigo():
+    data = request.get_json()
+    email = data.get('email')
+    codigo_recebido = data.get('codigo')
+
+    if not email or not codigo_recebido:
+        return jsonify({"erro": "Email e código são obrigatórios"}), 400
+
+    # .populate_existing() garante que foi pego os dados reais do banco
+    usuario = Usuario.query.filter_by(email=email).populate_existing().first()
+
+    if usuario and usuario.otp_secret is not None:
+        if str(usuario.otp_secret) == str(codigo_recebido):
+            try:
+                # Altera os dados
+                usuario.is_active = True
+                usuario.otp_secret = None
+                
+                # Força a atualização
+                db_serv.session.add(usuario)
+                db_serv.session.flush()  # Envia para o banco mas não finaliza
+                db_serv.session.commit() # Finaliza a transação
+                
+                return jsonify({"mensagem": "Conta ativada com sucesso!"}), 200
+            except Exception as e:
+                db_serv.session.rollback()
+                print(f"ERRO CRÍTICO NO COMMIT: {e}")
+                return jsonify({"erro": f"Erro interno ao salvar: {str(e)}"}), 500
+        else:
+            return jsonify({"erro": "Código de verificação inválido."}), 400
+    
+    return jsonify({"erro": "Usuário não encontrado ou já ativado."}), 404

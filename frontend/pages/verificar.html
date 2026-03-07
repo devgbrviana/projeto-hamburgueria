@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Código - Code Burger</title>
+    <link rel="stylesheet" href="/frontend/css/login_cadastro.css">
+    <link rel="shortcut icon" href="/frontend/logoicone/logo_codeburger.png" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html" class="logo-link">
+                    <img src="/frontend/logoicone/logo_codeburger.png" alt="Code Burger">
+                    <span class="logo-text">Code <span class="logo-dot">•</span> Burger</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-container">
+        <div class="form-wrapper">
+            <div class="form-card">
+                <div class="card-header">
+                    <h2 class="card-title">Verifique seu E-mail</h2>
+                    <p class="card-description">Enviamos um código de 6 dígitos para o seu e-mail.</p>
+                </div>
+                
+                <div class="card-content">
+                    <div class="input-group">
+                        <input type="text" id="otp-input" maxlength="6" placeholder="000000" class="input" 
+                               style="text-align: center; letter-spacing: 10px; font-size: 24px;">
+                    </div>
+                    <button id="verifyBtn" class="btn-gradient btn-full">Verificar Conta</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Div para as mensagens de erro/sucesso -->
+    <div id="toast" class="toast hidden">
+        <div class="toast-content">
+            <h3 id="toastTitle" class="toast-title"></h3>
+            <p id="toastDescription" class="toast-description"></p>
+        </div>
+    </div>
+
+    <script src="/frontend/js/global.js"></script>
+    <script src="/frontend/js/verificar.js"></script>
+</body>
+</html>

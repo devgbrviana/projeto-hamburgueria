@@ -1,0 +1,238 @@
+@import url('https://fonts.googleapis.com/css2?family=Calistoga&family=Inter:wght@100..900&display=swap');
+
+:root {
+    --primary: #FF6B35;
+    --primary-light: #FF8A65;
+    --secondary: #FFD23F;
+    --background: #0a0a0a;
+    --card-bg: #1a1a1a;
+    --border: #333333;
+    --text-muted: #888888;
+    --shadow-glow: 0 0 40px rgba(255, 107, 53, 0.2);
+    --gradient-primary: linear-gradient(135deg, #FF6B35, #FFD23F);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    background-color: var(--background);
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/*HEADER E LOGO HORIZONTAL */
+header {
+    background-color: rgba(10, 10, 10, 0.95);
+    border-bottom: 1px solid var(--border);
+}
+
+header .container {
+    padding: 20px 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /*separa a logo dos botões */
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    line-height: 0; 
+}
+
+.logo-link img {
+    height: 45px;
+    width: auto;
+}
+
+.logo-link span.logo-text {
+    font-family: 'Calistoga', serif;
+    font-size: 28px;
+    color: #FFF;
+}
+
+.logo-link span.logo-dot {
+    color: var(--primary);
+}
+
+/*NAVEGAÇÃO*/
+nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+nav .leftside {
+    display: flex;
+    gap: 30px;
+}
+
+nav a {
+    color: #FFF;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: var(--primary);
+}
+
+nav .button {
+    border: 1px solid #FFF;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+nav .button:hover {
+    border-color: var(--primary);
+}
+
+/*CONTAINER DO LOGIN*/
+.page-container {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: radial-gradient(ellipse at center, #1a1a1a 0%, #0a0a0a 100%);
+}
+
+.form-wrapper {
+    width: 100%;
+    max-width: 28rem;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.header-section {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.header-section img{
+   height: 100px;
+}
+
+.main-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: 'Calistoga', serif;
+}
+
+.form-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-glow);
+    padding: 2rem;
+}
+
+.card-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* inputs e botões */
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.label {
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-muted);
+}
+
+.input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    color: white;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.input:focus {
+    border-color: var(--primary);
+}
+.toast {
+    position: fixed; 
+    top: 20px;       
+    right: 20px;     
+    z-index: 9999;   
+    background: var(--card-bg);
+    border: 1px solid var(--primary);
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-glow);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.toast.hidden {
+    display: none;
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.toast.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+.btn-gradient {
+    width: 100%;
+    padding: 1rem;
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: 0.5rem;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-gradient:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+}
+
+.footer-links {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.link {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+/* --- ANIMAÇÕES --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    header .container { padding: 20px; }
+    nav { display: none; }
+}

@@ -23,7 +23,7 @@ CMD ["python", "run.py"]
 #       2 - 'docker-compose run --rm api python -m apps.init_db'    #
 #                                                                   #
 #       Esse comando irá inicializar o banco de dados,              #
-#       executando o script init_db.py que cira as tabelas no       #
+#       executando o script init_db.py que cria as tabelas no       #
 #       MySQL.                                                      #
 #                                                                   #
 #       3 - 'docker-compose up'                                     #

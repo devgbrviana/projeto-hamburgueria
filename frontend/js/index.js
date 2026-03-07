@@ -1,20 +1,56 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const input = document.getElementById("search");
+  // LÓGICA DE EXIBIÇÃO DO USUÁRIO 
+  const usuarioData = localStorage.getItem("usuarioLogado");
+  const navContainer = document.querySelector("nav .container") || document.querySelector("nav");
 
-  input.addEventListener("input", function () {
-    const valorBusca = input.value.toLowerCase().trim();
+  if (usuarioData) {
+    const usuario = JSON.parse(usuarioData);
 
-    const produtos = document.querySelectorAll(".product-item");
+    // Localiza os botões de Login e Cadastro para remover
+    const loginBtn = document.querySelector('a[href="login.html"]');
+    const cadastroBtn = document.querySelector('a[href="cadastro.html"]');
 
-    produtos.forEach((produto) => {
-      const nomeEl = produto.querySelector(".product-name");
-      const nome = nomeEl ? nomeEl.textContent.toLowerCase() : "";
+    if (loginBtn) loginBtn.parentElement.remove();
+    if (cadastroBtn) cadastroBtn.parentElement.remove();
 
-      if (valorBusca === "" || nome.includes(valorBusca)) {
-        produto.style.display = "block";
-      } else {
-        produto.style.display = "none";
-      }
+    // Cria a área do perfil do usuário
+    const userArea = document.createElement("div");
+    userArea.className = "rightside user-profile";
+    userArea.innerHTML = `
+      <span style="color: white; margin-right: 15px;">Olá, <strong>${usuario.nome.split(' ')[0]}</strong></span>
+      <a href="#" id="logout-btn" title="Sair" style="color: #ef4444; font-size: 1.2rem;">
+        <i class="fa-solid fa-right-from-bracket"></i>
+      </a>
+    `;
+    navContainer.appendChild(userArea);
+
+    // Lógica de Logout
+    document.getElementById("logout-btn").addEventListener("click", (e) => {
+      e.preventDefault();
+      localStorage.removeItem("usuarioLogado");
+      window.location.reload();
     });
-  });
+  }
+
+  // LÓGICA DE BUSCA(FILTRO)
+  const inputSearch = document.getElementById("search");
+
+  if (inputSearch) {
+    inputSearch.addEventListener("input", function () {
+      const valorBusca = inputSearch.value.toLowerCase().trim();
+      const produtos = document.querySelectorAll(".product-item");
+
+      produtos.forEach((produto) => {
+        const nomeEl = produto.querySelector(".product-name");
+        const nome = nomeEl ? nomeEl.textContent.toLowerCase() : "";
+
+        // Se o nome incluir o que foi digitado, mostra, senão esconde
+        if (valorBusca === "" || nome.includes(valorBusca)) {
+          produto.style.display = "block";
+        } else {
+          produto.style.display = "none";
+        }
+      });
+    });
+  }
 });

@@ -1,31 +1,5 @@
-function showToast(title, description) {
-    const toast = document.getElementById('toast');
-    const toastTitle = document.getElementById('toastTitle');
-    const toastDescription = document.getElementById('toastDescription');
-    
-    toastTitle.textContent = title;
-    toastDescription.textContent = description;
-    
-    toast.classList.remove('hidden');
-    setTimeout(() => {
-        toast.classList.add('show');
-    }, 10);
-    setTimeout(() => {
-        hideToast();
-    }, 3000);
-}
-
-function hideToast() {
-    const toast = document.getElementById('toast');
-    toast.classList.remove('show');
-    setTimeout(() => {
-        toast.classList.add('hidden');
-    }, 300);
-}
-
 function validateEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 document.getElementById('loginForm').addEventListener('submit', function(e) {
@@ -49,29 +23,27 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     loginBtn.classList.add('loading');
     loginBtn.disabled = true;
     
-    fetch('http://127.0.0.1:5002/login', {
+    fetch('http://127.0.0.1:5002/login', { 
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            email: email,
-            senha: password 
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, senha: password })
     })
     .then(response => response.json())
     .then(data => {
-        if (data.mensagem) {
-            showToast('Login realizado!', data.mensagem);
-            setTimeout(() => {
-                window.location.href = '/index.html';
-            }, 2000);
+        if (data.usuario) { 
+            localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
+            
+            showToast('Login realizado!', `Bem-vindo, ${data.usuario.nome}`);
+            
+            setTimeout(() => { 
+                window.location.href = 'index.html'; 
+            }, 1500);
         } else {
-            showToast('Erro de Login', data.erro);
+            showToast('Erro de Login', data.erro || 'Credenciais inválidas');
         }
     })
     .catch(error => {
-        console.error('Erro de fetch:', error);
+        console.error('Erro:', error);
         showToast('Erro de Conexão', 'Não foi possível conectar ao servidor.');
     })
     .finally(() => {
@@ -81,18 +53,16 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     });
 });
 
-document.addEventListener('click', function(e) {
-    const toast = document.getElementById('toast');
-    if (!toast.contains(e.target) && toast.classList.contains('show')) {
-        hideToast();
-    }
-});
+document.addEventListener('DOMContentLoaded', () => {
+    const emailInput = document.getElementById('email');
+    const passInput = document.getElementById('password');
 
-document.addEventListener('DOMContentLoaded'), function() {
-    document.getElementById('email').focus();
-    document.getElementById('email').addEventListener('keypress'), function(e) {
+    if(emailInput) emailInput.focus();
+
+    emailInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
-            document.getElementById('password')
-            }
+            e.preventDefault();
+            passInput.focus();
         }
-    }
+    });
+});

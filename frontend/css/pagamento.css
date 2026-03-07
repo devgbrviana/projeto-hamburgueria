@@ -1,3 +1,125 @@
+/*FONTE */
+@import url('https://fonts.googleapis.com/css2?family=Calistoga&family=Inter:wght@100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 18px;
+    background-color: #141414;
+    color: #FFF;
+    overflow-x: hidden;
+}
+
+.container {
+    width: 100%;
+    margin: auto;
+    max-width: 1200px;
+    padding: 0px 20px;
+}
+
+/* HEADER E FOOTER */
+header .container {
+    display: flex;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+
+.logo a {
+    font-family: 'Calistoga';
+    font-size: 36px;
+    color: #FFF;
+    text-decoration: none;
+}
+
+.logo a span {
+    color: #FE6A0F;
+}
+
+header nav {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+header nav .leftside {
+    display: flex;
+    margin-right: auto;
+    padding-left: 50px;
+}
+
+header nav li {
+    margin: 0 15px;
+}
+
+header nav li a {
+    color: #FFF;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+header nav .rightside {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: 10px;
+}
+
+header nav .button {
+    display: inline-block;
+    border: 1px solid #FFF;
+    padding: 10px 25px;
+    border-radius: 5px;
+    color: #FFF;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+/* Ícone do Carrinho */
+.cart-icon-link {
+    position: relative;
+    display: inline-block;
+}
+
+.cart-icon {
+    font-size: 24px;
+    color: #1c1c1c;
+    background-color: #FE6A0F;
+    padding: 8px 12px;
+    border: 1px solid #FE6A0F;
+    border-radius: 8px;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #e74c3c;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+}
+
+footer {
+    background-color: #1F1F1F;
+    padding: 60px 0;
+    margin-top: 40px;
+}
+
+
 .page-title {
     font-family: 'Calistoga';
     font-size: 32px;
@@ -84,6 +206,7 @@
     padding-top: 15px;
 }
 
+/* Botão de Finalizar */
 .order-summary .button {
     width: 100%;
     text-align: center;
@@ -93,8 +216,13 @@
     cursor: pointer;
     background: #FE6A0F;
     border-radius: 8px;
+    color: #FFF;
+    text-decoration: none;
+    border: none;
+    font-weight: bold;
 }
 
+/* Botão Secundário */
 .button-secondary {
     display: block;
     width: 100%;
@@ -114,7 +242,10 @@
     background-color: rgba(254, 106, 15, 0.1); 
 }
 
+/*RESPONSIVIDADE */
 @media (max-width: 820px) {
+    header nav { display: none; }
+    
     .payment-layout {
         flex-direction: column-reverse; 
     }

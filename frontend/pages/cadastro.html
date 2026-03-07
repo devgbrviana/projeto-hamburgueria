@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - Code Burger</title>
     <link rel="shortcut icon" href="/frontend/logoicone/logo_codeburger.png" type="image/x-icon">
-    <link rel="stylesheet" href="/frontend/css/style.css"> 
-    <link rel="stylesheet" href="/frontend/css/style2.css">
+    <link rel="stylesheet" href="/frontend/css/login_cadastro.css">
 </head>
+
 <body>
-     <header>
+    <header>
         <div class="container">
             <div class="logo">
-                <a href="/frontend/pages/index.html">Code <span>•</span> Burger</a>
+                <a href="index.html" class="logo-link">
+                    <img src="/frontend/logoicone/logo_codeburger.png" alt="Code Burger">
+                    <span class="logo-text">Code <span class="logo-dot">•</span> Burger</span>
+                </a>
             </div>
             <nav>
                 <ul class="leftside">
@@ -22,15 +26,10 @@
                 </ul>
                 <div class="rightside">
                     <a href="" class="button">Fazer pedido</a>
-                </div>
-                <div class="rightside">
-                    <a href="/frontend/pages/login.html" class="button">Login</a>
-                </div>
-                <div class="rightside">
-                    <a href="/frontend/pages/cadastro.html" class="button">Cadastro</a>
+                    <a href="login.html" class="button">Login</a>
+                    <a href="cadastro.html" class="button">Cadastro</a>
                 </div>
             </nav>
-            
         </div>
     </header>
     <div class="page-container">
@@ -46,75 +45,39 @@
                     <h2 class="card-title">Cadastro</h2>
                     <p class="card-description">Preencha os dados para criar sua conta</p>
                 </div>
-                
+
                 <div class="card-content">
                     <form id="cadastroForm" class="form">
                         <div class="input-group">
                             <label for="nome" class="label">Nome completo</label>
-                            <input 
-                                type="text" 
-                                id="nome" 
-                                class="input" 
-                                placeholder="Seu nome completo" 
-                                required
-                            >
+                            <input type="text" id="nome" class="input" placeholder="Seu nome completo" required>
                         </div>
 
                         <div class="input-group">
                             <label for="email" class="label">Email</label>
-                            <input 
-                                type="email" 
-                                id="email" 
-                                class="input" 
-                                placeholder="seu@email.com" 
-                                required
-                            >
+                            <input type="email" id="email" class="input" placeholder="seu@email.com" required>
                         </div>
 
                         <div class="input-group">
                             <label for="telefone" class="label">Telefone</label>
-                            <input 
-                                type="tel" 
-                                id="telefone" 
-                                class="input" 
-                                placeholder="(11) 99999-9999" 
-                                required
-                            >
+                            <input type="tel" id="telefone" class="input" placeholder="(11) 99999-9999" required>
                         </div>
 
                         <div class="input-group">
                             <label for="endereco" class="label">Endereço</label>
-                            <input 
-                                type="endereco" 
-                                id="endereco" 
-                                class="input" 
-                                placeholder="Rua Galvão Bueno " 
-                                required
-                            >
+                            <input type="endereco" id="endereco" class="input" placeholder="Rua Galvão Bueno " required>
                         </div>
-                        
+
                         <div class="input-group">
                             <label for="password" class="label">Senha</label>
-                            <input 
-                                type="password" 
-                                id="password" 
-                                class="input" 
-                                placeholder="••••••••" 
-                                required
-                                minlength="6"
-                            >
+                            <input type="password" id="password" class="input" placeholder="••••••••" required
+                                minlength="6">
                         </div>
 
                         <div class="input-group">
                             <label for="confirmPassword" class="label">Confirmar senha</label>
-                            <input 
-                                type="password" 
-                                id="confirmPassword" 
-                                class="input" 
-                                placeholder="••••••••" 
-                                required
-                                minlength="6"
-                            >
+                            <input type="password" id="confirmPassword" class="input" placeholder="••••••••" required
+                                minlength="6">
                         </div>
 
                         <button type="submit" class="btn btn-gradient btn-full" id="cadastroBtn">
@@ -124,7 +87,7 @@
 
                     <div class="footer-links">
                         <p class="link-text">
-                            Já tem uma conta? 
+                            Já tem uma conta?
                             <a href="/frontend/pages/login.html" class="link">Fazer login</a>
                         </p>
                     </div>
@@ -140,6 +103,8 @@
         </div>
     </div>
 
-    <script src="/frontend/js/cadastro.js"></script> <script src="/frontend/js/global.js" defer></script>
+    <script src="/frontend/js/cadastro.js"></script>
+    <script src="/frontend/js/global.js" defer></script>
 </body>
+
 </html>
