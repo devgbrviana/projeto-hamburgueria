@@ -5,7 +5,7 @@ services:
     container_name: cont_mysql
     environment:
       MYSQL_ROOT_PASSWORD: 12345
-      MYSQL_DATABASE: Hamburgueria
+      MYSQL_DATABASE: hamburgueria_db
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
@@ -28,11 +28,16 @@ services:
     environment:
       DB_HOST: db
       DB_PORT: 3306
-      DB_NAME: Hamburgueria
+      DB_NAME: hamburgueria_db
       DB_USER: root        
       DB_PASSWORD: 12345   
       MAIL_USER: ${MAIL_USER}
       MAIL_PASSWORD: ${MAIL_PASSWORD}
+      # Adicione estas linhas abaixo:
+      MAIL_SERVER: ${MAIL_SERVER}
+      MAIL_PORT: ${MAIL_PORT}
+      MAIL_USE_TLS: ${MAIL_USE_TLS}
+      MAIL_USE_SSL: ${MAIL_USE_SSL}
         
 volumes:
   mysql_data:

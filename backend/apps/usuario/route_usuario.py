@@ -9,51 +9,54 @@ bd_usuario = Blueprint('usuario', __name__)
 
 @bd_usuario.route('/cadastro', methods=['POST'])
 def cadastrar_usuario():
-    data = request.get_json()
-
-    nome = data.get('nome')
-    email = data.get('email')
-    telefone = data.get('telefone')
-    endereco = data.get('endereco') 
-    senha = data.get('senha')
-
-    if not all([nome, email, senha]):
-        return jsonify({"erro": "Todos os campos (nome, email, senha) são obrigatórios"}), 400
-
-    if Usuario.query.filter_by(email=email).first():
-        return jsonify({"erro": "Este email já está cadastrado."}), 409
-
-    # Gera o código OTP de 6 dígitos
-    codigo_otp = random.randint(100000, 999999)
-    senha_hash = generate_password_hash(senha)
-
-    # Cria o usuário (is_active=False garante que ele não logue sem verificar)
-    novo_usuario = Usuario(
-        nome=nome,
-        email=email,
-        telefone=telefone,
-        endereco=endereco,
-        senha_hash=senha_hash,
-        otp_secret=codigo_otp,
-        is_active=False 
-    )
+    dados = request.get_json()
+    email_cliente = dados.get('email')
+    nome_cliente = dados.get('nome')
 
     try:
-        db_serv.session.add(novo_usuario)
-        db_serv.session.commit()
-
-        # Envia o E-mail com o código
-        msg = Message("Ative sua conta - Code Burger",
-                      recipients=[email])
-        msg.body = f"Olá {nome}! Seu código de ativação é: {codigo_otp}"
+        msg = Message(
+            subject=f"Bem-vindo à Code Burger, {nome_cliente}!",
+            recipients=[email_cliente],
+            body=f"Olá {nome_cliente}, seu cadastro foi realizado com sucesso!\n\nAgora você já pode fazer seus pedidos em nossa plataforma."
+        )
         mail.send(msg)
-
-        return jsonify({"mensagem": "Usuário criado! Verifique seu e-mail para ativar."}), 201
-        
+        print(f"E-mail enviado para {email_cliente}")
     except Exception as e:
-        db_serv.session.rollback()
-        print(f"Erro no cadastro: {e}")
-        return jsonify({"erro": "Erro interno ao criar usuário."}), 500
+        print(f"Falha ao enviar e-mail: {str(e)}")
+
+    return jsonify({"message": "Usuário cadastrado com sucesso!"})
+
+@bd_login.route('/recuperar-senha', methods=['POST'])
+def recuperar_senha():
+    dados = request.get_json()
+    email_usuario = dados.get('email')
+
+    #código aleatório de 6 dígitos
+    codigo_recuperacao = ''.join(random.choices(string.digits, k=6))
+
+    #Lógica de Negócio 
+
+    try:
+        # Criar e enviar a mensagem
+        msg = Message(
+            subject="Recuperação de Senha - Code Burger",
+            recipients=[email_usuario],
+            body=f"Olá!\n\nRecebemos uma solicitação de recuperação de senha.\n"
+                 f"Seu código de segurança é: {codigo_recuperacao}\n\n"
+                 f"Se você não solicitou isso, ignore este e-mail."
+        )
+        mail.send(msg)
+        
+        return jsonify({
+            "message": "Código de recuperação enviado com sucesso!",
+            "status": "success"
+        }), 200
+
+    except Exception as e:
+        return jsonify({
+            "message": "Erro ao enviar e-mail de recuperação.",
+            "error": str(e)
+        }), 500
 
 @bd_usuario.route('/verificar', methods=['POST'])
 def verificar_codigo():
