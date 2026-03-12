@@ -31,9 +31,8 @@ services:
       DB_NAME: hamburgueria_db
       DB_USER: root        
       DB_PASSWORD: 12345   
-      MAIL_USER: ${MAIL_USER}
+      MAIL_USERNAME: ${MAIL_USER}
       MAIL_PASSWORD: ${MAIL_PASSWORD}
-      # Adicione estas linhas abaixo:
       MAIL_SERVER: ${MAIL_SERVER}
       MAIL_PORT: ${MAIL_PORT}
       MAIL_USE_TLS: ${MAIL_USE_TLS}

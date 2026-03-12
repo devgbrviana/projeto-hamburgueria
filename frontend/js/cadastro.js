@@ -109,8 +109,8 @@ document.getElementById('cadastroForm').addEventListener('submit', function(e) {
     })
     .then(response => response.json())
     .then(data => {
-        if (data.mensagem) {
-            showToast('Conta criada!', data.mensagem);
+        if (data.message) {
+            showToast('Conta criada!', data.message);
             setTimeout(() => {
                 window.location.href = `verificar.html?email=${encodeURIComponent(email)}`;
             }, 2000);
