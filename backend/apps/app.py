@@ -1,4 +1,5 @@
 import os
+from apps.admin.route_admin import admin_bp
 from flask import Flask
 from flask_cors import CORS
 from flasgger import Swagger
@@ -44,6 +45,6 @@ from apps.login.route_login import bd_login
 app.register_blueprint(bd_Lanche)
 app.register_blueprint(bd_usuario, url_prefix='/usuario')
 app.register_blueprint(bd_login)
-
+app.register_blueprint(admin_bp, url_prefix='/admin')
 if __name__ == "__main__":
     app.run(host=app.config['HOST'], port=app.config['PORT'], debug=app.config['DEBUG'])

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Code Burguer</title>
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+    <div class="admin-container">
+        <nav class="sidebar">
+            <div class="logo">
+                Code <span>Burguer</span>
+            </div>
+            <ul>
+                <li><a href="#" class="active"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="#"><i class="fa-solid fa-hamburger"></i> Produtos</a></li>
+                <li><a href="#"><i class="fa-solid fa-users"></i> Colaboradores</a></li>
+                <li><a href="#"><i class="fa-solid fa-gears"></i> Configurações</a></li>
+                <li><a href="../index.html" style="margin-top: 50px; color: #ff4d4d;"><i class="fa-solid fa-right-from-bracket"></i> Sair</a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <header>
+                <h1>Painel Administrativo</h1>
+                <p>Bem-vindo de volta, Administrador!</p>
+            </header>
+
+            <section class="cards-resumo">
+                <div class="card">
+                    <h3>Faturamento Total</h3>
+                    <p>R$ 0,00</p>
+                    <small>Atualizado em tempo real</small>
+                </div>
+                <div class="card">
+                    <h3>Colaboradores</h3>
+                    <p>0</p>
+                    <small>Equipe ativa</small>
+                </div>
+                <div class="card">
+                    <h3>Top Lanche</h3>
+                    <p>--</p>
+                    <small>O mais vendido do mês</small>
+                </div>
+            </section>
+
+            <section class="tabela-produtos">
+                <div class="table-header">
+                    <h2>Gerenciar Cardápio</h2>
+                    <button class="btn-add"><i class="fa-solid fa-plus"></i> Novo Produto</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Imagem</th>
+                            <th>Nome do Produto</th>
+                            <th>Preço</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-produtos">
+                        <tr>
+                            <td>#001</td>
+                            <td><img src="../assets/burger-placeholder.png" alt="Burger" width="40"></td>
+                            <td>Double Bacon Cheese</td>
+                            <td>R$ 35,90</td>
+                            <td>
+                                <button class="btn-edit"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-delete"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script src="../js/admin.js"></script>
+</body>
+</html>
