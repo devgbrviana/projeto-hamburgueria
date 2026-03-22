@@ -49,6 +49,33 @@ async function carregarProdutos() {
 });
 }
 
+async function excluir(id) {
+    const confirmacao = confirm(`Tem certeza que deseja excluir o lanche #${id}?`);
+    
+    if (confirmacao) {
+        try {
+            const response = await fetch(`http://localhost:5002/admin/api/admin/produtos/${id}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                alert("Lanche removido com sucesso!");
+                carregarProdutos(); 
+            } else {
+                const erro = await response.json();
+                alert(`Erro: ${erro.Mensagem || "Não foi possível excluir"}`);
+            }
+        } catch (error) {
+            console.error("Erro na deleção:", error);
+        }
+    }
+}
+
+function editar(id) {
+    console.log("Abrindo edição do lanche:", id);
+    alert("Funcionalidade de edição em breve!");
+}
+
 window.onload = () => {
     carregarDadosDashboard();
     carregarProdutos(); 

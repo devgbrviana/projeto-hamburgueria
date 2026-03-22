@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from apps.lanche.model_lanche import Lanche,listarLanche
+from apps.lanche.model_lanche import Lanche,listarLanche,deletarLanche
 from functools import wraps
 
 admin_bp = Blueprint('admin', __name__)
@@ -27,3 +27,11 @@ def listar_produtos_admin():
     except Exception as e:
         print(f"ERRO NO BACKEND: {e}")
         return jsonify({"erro": str(e)}), 500
+    
+@admin_bp.route('/api/admin/produtos/<int:id>', methods=['DELETE'])
+def excluir_produto(id):
+    try:
+        resposta, status = deletarLanche(id)
+        return jsonify(resposta), status
+    except Exception as e:
+        return jsonify({"Erro": str(e)}), 500

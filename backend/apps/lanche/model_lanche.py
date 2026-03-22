@@ -91,12 +91,16 @@ def lancheExiste(id):
 
 def deletarLanche(id_lanche):
     try:
-        lanche = db_serv.session.query(Lanche).get(id_lanche)
+        lanche = Lanche.query.filter_by(id=id_lanche).first()
 
         if lanche is None:
-            return {"Mensagem": LancheNaoExiste().msg}, 404
-        else:
-            db_serv.session.delete(lanche)
-            db_serv.session.commit()
+            return {"Mensagem": "Lanche não encontrado no banco!"}, 404
+        
+        db_serv.session.delete(lanche)
+        db_serv.session.commit()
+        return {"Mensagem": "Lanche deletado com sucesso!"}, 200
+        
     except Exception as e:
-        return ({"Erro": str(e)}), 500
+        db_serv.session.rollback() 
+        print(f"Erro SQL: {e}")
+        return {"Erro": str(e)}, 500
