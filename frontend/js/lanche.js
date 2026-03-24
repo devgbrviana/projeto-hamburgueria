@@ -11,9 +11,9 @@ async function buscarLanches() {
         if (!response.ok) {
             throw new Error(`Erro na rede: ${response.statusText}`);
         }
-        todosOsLanches = await response.json(); 
+        todosOsLanches = await response.json();
         console.log('Dados recebidos da API:', todosOsLanches);
-        filtrarPorCategoria('Burgers');
+        filtrarPorCategoria('Burger');
 
     } catch (error) {
         console.error('Ocorreu um erro ao buscar os lanches:', error);
@@ -25,7 +25,7 @@ async function buscarLanches() {
 }
 
 function filtrarPorCategoria(categoriaDesejada) {
-    const lanchesFiltrados = todosOsLanches.filter(lanche => 
+    const lanchesFiltrados = todosOsLanches.filter(lanche =>
         lanche.categoria.toLowerCase() === categoriaDesejada.toLowerCase()
     );
     exibirLanchesNaPagina(lanchesFiltrados);
@@ -45,12 +45,12 @@ function exibirLanchesNaPagina(lanches) {
     }
 
     lanches.forEach(lanche => {
-        
+
         let pasta = '';
         let prefixo = '';
 
         switch (lanche.categoria) {
-            case 'Burgers':
+            case 'Burger':
                 pasta = 'burgers';
                 prefixo = 'burger'; // Ex: burger1.png
                 break;
@@ -63,7 +63,7 @@ function exibirLanchesNaPagina(lanches) {
                 prefixo = 'vegetariano'; // Ex: vegetariano20.png
                 break;
             case 'Kids':
-                pasta = 'kids'; 
+                pasta = 'kids';
                 prefixo = 'kids'; // Ex: kids30.png
                 break;
             default:
@@ -73,33 +73,40 @@ function exibirLanchesNaPagina(lanches) {
 
         const imageUrl = `/frontend/assets/${pasta}/${prefixo}${lanche.id}.png`;
 
+        // Além de escapar aspas simples, removemos quebras de linha (\n e \r)
+        const descricaoEscapada = lanche.descricao
+            .replace(/'/g, "\\'")     // Escapa aspas simples
+            .replace(/\n/g, ' ')      // Remove quebras de linha
+            .replace(/\r/g, ' ');     // Remove retornos de carro
         const cardHTML = `
-            <a href="#" class="product-item" 
-               onclick="selecionarLanche('${lanche.nome}', '${imageUrl}', '${lanche.preco}')"> 
-                <div class="photo">
-                    <img src="${imageUrl}" alt="${lanche.nome}" onerror="this.src='/frontend/assets/burgers/burger1.png'"/>
-                </div>
-                <div class="info">
-                    <div class="product-category">${lanche.categoria}</div>
-                    <div class="product-name">${lanche.nome}</div>
-                    <div class="product-description">${lanche.descricao}</div> 
-                    <div class="product-price">${Number(lanche.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</div>
-                </div>
-            </a>
+        <a href="javascript:void(0)" class="product-item" 
+           onclick="selecionarLanche('${lanche.nome}', '${imageUrl}', '${lanche.preco}', '${lanche.categoria}', '${descricaoEscapada}')"> 
+            <div class="photo">
+                <img src="${imageUrl}" alt="${lanche.nome}" onerror="this.src='/frontend/assets/burgers/burger1.png'"/>
+            </div>
+            <div class="info">
+                <div class="product-category">${lanche.categoria}</div>
+                <div class="product-name">${lanche.nome}</div>
+                <div class="product-description">${lanche.descricao}</div> 
+                <div class="product-price">${Number(lanche.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</div>
+            </div>
+        </a>
         `;
         container.insertAdjacentHTML('beforeend', cardHTML);
     });
 }
 
 
-function selecionarLanche(nome, imagemUrl, preco) {
+function selecionarLanche(nome, imagemUrl, preco, categoria, descricao) {
+
     const lancheSelecionado = {
         nome: nome,
         imagem: imagemUrl,
-        preco: preco
+        preco: preco,
+        categoria: categoria,
+        descricao: descricao
     };
 
     localStorage.setItem('lancheParaPersonalizar', JSON.stringify(lancheSelecionado));
-
-    window.location.href = '/frontend/pages/personalizacao.html';
+    window.location.href = 'personalizacao.html';
 }

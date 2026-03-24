@@ -211,6 +211,23 @@ body {
     display: block; /* Faz o link se comportar como um bloco, respeitando o width: 100% */
     transition: background-color 0.3s;
 }
+.btn-limpar {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: transparent;
+    color: #ff4d4d; /* Vermelho */
+    border: 1px solid #ff4d4d;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-limpar:hover {
+    background-color: #ff4d4d;
+    color: white;
+}
 
 .btn-finalizar:hover {
     background-color: #e05a0d;

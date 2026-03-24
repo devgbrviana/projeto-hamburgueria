@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="/frontend/css/carrinho.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 </head>
+
 <body>
     <header class="header">
         <a href="/frontend/pages/index.html" class="logo-link">
@@ -19,10 +21,11 @@
         <h2>Meu Carrinho</h2>
         <div class="carrinho-layout">
             <section id="lista-itens" class="itens-carrinho">
-                </section>
+            </section>
 
             <aside class="resumo-pedido">
                 <h3>Resumo do Pedido</h3>
+
                 <div class="detalhe-preco">
                     <span>Subtotal</span>
                     <span id="subtotal">R$ 0,00</span>
@@ -31,16 +34,19 @@
                     <span>Total</span>
                     <span id="total">R$ 0,00</span>
                 </div>
-                <a href='/frontend/pages/pagamento.html' class="btn-finalizar">Finalizar Pedido</a> 
+
+                <a href='/frontend/pages/pagamento.html' class="btn-finalizar">Finalizar Pedido</a>
                 <a href="/frontend/pages/index.html" class="continuar-comprando">Continuar comprando</a>
+                <button id="btn-limpar-carrinho" class="btn-limpar">Limpar Carrinho</button>
             </aside>
         </div>
     </main>
 
     <footer class="footer">
-        <p>Code <span>Burguer</span></p>
+        <p>Code <span>Burger</span></p>
     </footer>
 
     <script src="/frontend/js/carrinho.js"></script>
 </body>
+
 </html>

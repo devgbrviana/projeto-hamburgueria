@@ -298,16 +298,20 @@ header nav .button {
     padding: 20px;
 }
 
+.product-category {
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #4A90E2;                
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
 .product-name {
     font-family: 'Calistoga';
     font-size: 28px;
     color: #FFF;
-}
-
-.product-price {
-    font-size: 24px;
-    font-weight: bold;
-    color: #FE6A0F;
+    margin: 10px 0 5px 0;          
+    line-height: 1.2;
 }
 
 .product-description {
@@ -317,6 +321,12 @@ header nav .button {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
+
+.product-price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #FE6A0F;
 }
 
 footer {

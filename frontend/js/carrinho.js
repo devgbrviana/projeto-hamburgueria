@@ -1,20 +1,78 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Limpa estados de edição anteriores
+    localStorage.removeItem('itemParaEditar');
+    
+    // Inicializa a tela
     renderizarCarrinho();
     adicionarEventListenersGlobais();
+    
+    // --- Configuração do Botão Limpar ---
+    const btnLimpar = document.getElementById('btn-limpar-carrinho');
+    if (btnLimpar) {
+        btnLimpar.onclick = () => {
+            if (confirm("Deseja realmente esvaziar seu carrinho?")) {
+                localStorage.removeItem('carrinho');
+                renderizarCarrinho();
+                if (typeof atualizarContadorCarrinho === 'function') {
+                    atualizarContadorCarrinho();
+                }
+            }
+        };
+    }
+
+    // --- Configuração do Botão Finalizar ---
     const btnFinalizar = document.querySelector('.btn-finalizar');
     if (btnFinalizar) {
-        btnFinalizar.addEventListener('click', (event) => {
+        btnFinalizar.onclick = (event) => {
+            const carrinho = getCarrinho();
+            
+            if (carrinho.length === 0) {
+                event.preventDefault();
+                alert("Seu carrinho está vazio!");
+                return;
+            }
+            
             event.preventDefault();
             const subtotalTexto = document.getElementById('subtotal').textContent;
             const totalTexto = document.getElementById('total').textContent;
-            const subtotalNum = parseFloat(subtotalTexto.replace('R$', '').replace('.', '').replace(',', '.'));
-            const totalNum = parseFloat(totalTexto.replace('R$', '').replace('.', '').replace(',', '.'));
+            
+            // Converte os textos R$ para números de forma segura
+            const subtotalNum = parseFloat(subtotalTexto.replace('R$', '').replace(/\./g, '').replace(',', '.'));
+            const totalNum = parseFloat(totalTexto.replace('R$', '').replace(/\./g, '').replace(',', '.'));
+            
             localStorage.setItem('subtotalPedido', subtotalNum);
             localStorage.setItem('totalPedido', totalNum);
             window.location.href = btnFinalizar.href;
-        });
+        };
     }
 });
+
+// --- Melhora na função de eventos para evitar duplicidade ---
+function adicionarEventListenersGlobais() {
+    const container = document.getElementById('lista-itens');
+    if (!container) return;
+
+    // Usar .onclick garante que apenas UM evento exista por vez
+    container.onclick = (event) => {
+        const target = event.target;
+        const itemElement = target.closest('.item-carrinho');
+        if (!itemElement) return;
+
+        const itemId = Number(itemElement.getAttribute('data-id'));
+
+        if (target.closest('.increase')) {
+            atualizarQuantidade(itemId, 1);
+        } else if (target.closest('.decrease')) {
+            atualizarQuantidade(itemId, -1);
+        } else if (target.closest('.btn-excluir')) {
+            removerItem(itemId);
+        } else if (target.closest('.btn-editar')) {
+            editarItem(itemId);
+        }
+    };
+}
+
+// Mantenha suas outras funções (formatPrice, getCarrinho, etc) como estão.
 function formatPrice(value) {
     return Number(value).toLocaleString('pt-BR', {
         style: 'currency',
@@ -95,17 +153,17 @@ function adicionarEventListenersGlobais() {
         }
     });
 }
+
 function editarItem(itemId) {
     let carrinho = getCarrinho();
     const itemParaEditar = carrinho.find(item => item.id === itemId);
 
     if (itemParaEditar) {
         localStorage.setItem('itemParaEditar', JSON.stringify(itemParaEditar));
-        const novoCarrinho = carrinho.filter(item => item.id !== itemId);
-        saveCarrinho(novoCarrinho);
         window.location.href = 'personalizacao.html';
     }
 }
+
 function atualizarQuantidade(itemId, mudanca) {
     let carrinho = getCarrinho();
     const itemIndex = carrinho.findIndex(item => item.id === itemId);
