@@ -10,7 +10,7 @@ class Lanche (db_serv.Model):
     descricao = db_serv.Column(db_serv.String(450), nullable=False)
     categoria = db_serv.Column(db_serv.String(50), nullable=False, default='Burgers')
     
-    def __init__(self, id, nome, preco, descricao,categoria):
+    def __init__(self, nome, preco, descricao,categoria="Burgers", id=None):
         self.id = id
         self.nome = nome
         self.preco = preco
@@ -25,6 +25,20 @@ class Lanche (db_serv.Model):
             "descricao": self.descricao,
             "categoria": self.categoria
         }
+
+    def atualizarLanche(self, id):
+        try:
+            lanche = Lanche.query.get(id)
+            if lanche is None:
+                return {"erro": "Lanche não encontrado"}, 404
+            lanche.nome = self.nome
+            lanche.descricao = self.descricao
+            lanche.preco = self.preco
+            db_serv.session.commit()
+            return {"mensagem": "Lanche atualizado com sucesso!"}, 200
+        except Exception as e:
+            db_serv.session.rollback()
+            return {"erro": str(e)}, 500  
         
 ### ===== Classe de exceção ===== ###
 
@@ -87,7 +101,8 @@ def lancheExiste(id):
     """
     lanche = Lanche.query.get(id)
     return lanche is not None
-        
+
+      
 
 def deletarLanche(id_lanche):
     try:

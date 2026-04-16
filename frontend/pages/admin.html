@@ -19,7 +19,9 @@
                 <li><a href="#"><i class="fa-solid fa-hamburger"></i> Produtos</a></li>
                 <li><a href="#"><i class="fa-solid fa-users"></i> Colaboradores</a></li>
                 <li><a href="#"><i class="fa-solid fa-gears"></i> Configurações</a></li>
-                <li><a href="../index.html" style="margin-top: 50px; color: #ff4d4d;"><i class="fa-solid fa-right-from-bracket"></i> Sair</a></li>
+                <li><a href="../index.html" style="margin-top: 50px; color: #ff4d4d;">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sair
+                </a></li>
             </ul>
         </nav>
 
@@ -50,8 +52,11 @@
             <section class="tabela-produtos">
                 <div class="table-header">
                     <h2>Gerenciar Cardápio</h2>
-                    <button class="btn-add"><i class="fa-solid fa-plus"></i> Novo Produto</button>
+                    <button class="btn-add">
+                        <i class="fa-solid fa-plus"></i> Novo Produto
+                    </button>
                 </div>
+
                 <table>
                     <thead>
                         <tr>
@@ -62,18 +67,9 @@
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="lista-produtos">
-                        <tr>
-                            <td>#001</td>
-                            <td><img src="../assets/burger-placeholder.png" alt="Burger" width="40"></td>
-                            <td>Double Bacon Cheese</td>
-                            <td>R$ 35,90</td>
-                            <td>
-                                <button class="btn-edit"><i class="fa-solid fa-pen"></i></button>
-                                <button class="btn-delete"><i class="fa-solid fa-trash"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
+
+                    <!-- 🔥 IMPORTANTE: tbody vazio -->
+                    <tbody id="lista-produtos"></tbody>
                 </table>
             </section>
         </main>

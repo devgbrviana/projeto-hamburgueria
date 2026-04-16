@@ -27,7 +27,45 @@ def listar_produtos_admin():
     except Exception as e:
         print(f"ERRO NO BACKEND: {e}")
         return jsonify({"erro": str(e)}), 500
-    
+
+
+@admin_bp.route('/api/admin/produtos', methods=['POST'])
+def criar_produto():
+    try:
+        dados = request.get_json()
+
+        novo_lanche = Lanche(
+            nome=dados['nome'],
+            descricao=dados['descricao'],
+            preco=dados['preco']
+        )
+
+        resposta, status = novo_lanche.criarLanche()
+
+        return jsonify(resposta), status
+
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+        
+@admin_bp.route('/api/admin/produtos/<int:id>', methods=['PUT'])
+def editar_produto(id):
+    try:
+        dados = request.get_json()
+
+        lanche = Lanche(
+            nome=dados.get('nome'),
+            descricao=dados.get('descricao'),
+            preco=dados.get('preco')
+        )
+
+        resposta, status = lanche.atualizarLanche(id)
+
+        return jsonify(resposta), status
+
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+
+
 @admin_bp.route('/api/admin/produtos/<int:id>', methods=['DELETE'])
 def excluir_produto(id):
     try:
