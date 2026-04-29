@@ -33,52 +33,28 @@ function filtrarPorCategoria(categoriaDesejada) {
 
 function exibirLanchesNaPagina(lanches) {
     const container = document.getElementById('lista-lanches');
-    if (!container) {
-        console.error("Elemento 'lista-lanches' não encontrado no HTML.");
-        return;
-    }
+    if (!container) return;
     container.innerHTML = '';
 
     if (lanches.length === 0) {
-        container.innerHTML = '<p style="color:white; text-align:center;">Nenhum item encontrado nesta categoria.</p>';
+        container.innerHTML = '<p style="color:white; text-align:center;">Nenhum item encontrado.</p>';
         return;
     }
 
     lanches.forEach(lanche => {
+        
+        let imageUrl = '';
 
-        let pasta = '';
-        let prefixo = '';
-
-        switch (lanche.categoria) {
-            case 'Burgers':
-                pasta = 'burgers';
-                prefixo = 'burger'; // Ex: burger1.png
-                break;
-            case 'Pizza':
-                pasta = 'pizza';
-                prefixo = 'pizza'; // Ex: pizza10.png
-                break;
-            case 'Vegetariano':
-                pasta = 'vegetariano'; //
-                prefixo = 'vegetariano'; // Ex: vegetariano20.png
-                break;
-            case 'Kids':
-                pasta = 'kids';
-                prefixo = 'kids'; // Ex: kids30.png
-                break;
-            default:
-                pasta = 'burgers';
-                prefixo = 'burger';
+        if (lanche.imagem && lanche.imagem.startsWith('http')) {
+            imageUrl = lanche.imagem;
+        } else if (lanche.imagem) {
+            imageUrl = `/frontend/assets/burgers/${lanche.imagem}`;
+        } else {
+            imageUrl = '/frontend/assets/burgers/burger1.png'; 
         }
 
-        const imageUrl = lanche.imagem && lanche.imagem.startsWith('http')
-        ? lanche.imagem
-        : `/frontend/assets/${pasta}/${prefixo}${lanche.id}.png`;
-
         const descReal = lanche.descricao || "";
-        const descParaOnclick = descReal
-            .replace(/\r?\n|\r/g, ' ') 
-            .replace(/'/g, "\\'");
+        const descParaOnclick = descReal.replace(/\r?\n|\r/g, ' ').replace(/'/g, "\\'");
 
         const cardHTML = `
             <a href="#" class="product-item" 
@@ -97,7 +73,6 @@ function exibirLanchesNaPagina(lanches) {
         container.insertAdjacentHTML('beforeend', cardHTML);
     });
 }
-
 
 function selecionarLanche(nome, imagemUrl, preco, descricao) {
     const lancheSelecionado = {

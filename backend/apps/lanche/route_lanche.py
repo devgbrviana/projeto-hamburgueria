@@ -4,10 +4,8 @@ from werkzeug.utils import secure_filename
 from apps.lanche.model_lanche import Lanche 
 from apps.extensions import db_serv 
 
-# Definindo o Blueprint
 bd_Lanche = Blueprint('Lanche', __name__)
 
-# Configuração da pasta de destino dos lanches (caminho relativo ao root do projeto)
 destinoPasta = os.path.join('frontend', 'assets', 'burgers')
 extensoes = {'png', 'jpg', 'jpeg', 'webp'}
 
@@ -30,7 +28,7 @@ def listar_lanche():
 @bd_Lanche.route("/admin/api/admin/produtos", methods=["POST"]) 
 def criar_lanche_admin():
     """Cria um novo lanche processando o upload da imagem física."""
-    # Como usamos FormData no JS, pegamos os textos via request.form
+   
     nome = request.form.get('nome')
     preco = request.form.get('preco')
     descricao = request.form.get('descricao', '')
@@ -40,22 +38,18 @@ def criar_lanche_admin():
         return jsonify({"Erro": "Nome e preço são obrigatórios."}), 400
 
     try:
-        # Processamento da Imagem (Sistema de Arquivos)
         arquivo = request.files.get('imagem')
-        nome_arquivo = "default_burger.png" # Fallback caso não envie foto
+        nome_arquivo = "default_burger.png" 
 
         if arquivo and allowed_file(arquivo.filename):
             filename = secure_filename(arquivo.filename)
             
-            # Garante que a pasta de assets existe no servidor/container
             if not os.path.exists(destinoPasta):
                 os.makedirs(destinoPasta)
                 
-            # Salva o arquivo fisicamente na pasta
             arquivo.save(os.path.join(destinoPasta, filename))
             nome_arquivo = filename
 
-        # Cria a instância do modelo com o nome do arquivo salvo
         novo_lanche = Lanche(
             nome=nome,
             preco=float(preco),
@@ -82,7 +76,6 @@ def deletar_lanche(id):
         if lanche_para_deletar is None:
             return jsonify({"Mensagem": "Lanche não encontrado."}), 404
         
-        # Opcional: Remove a imagem da pasta assets para não acumular lixo
         if lanche_para_deletar.imagem and lanche_para_deletar.imagem != "default_burger.png":
             caminho_imagem = os.path.join(destinoPasta, lanche_para_deletar.imagem)
             if os.path.exists(caminho_imagem):
