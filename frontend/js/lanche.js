@@ -4,14 +4,14 @@ document.addEventListener('DOMContentLoaded', () => {
     buscarLanches();
 });
 async function buscarLanches() {
-    const urlAPI = 'http://localhost:5002/lanche';
+    const urlAPI = 'http://localhost:5002/admin/api/admin/produtos';
     try {
         const response = await fetch(urlAPI);
 
         if (!response.ok) {
             throw new Error(`Erro na rede: ${response.statusText}`);
         }
-        todosOsLanches = await response.json(); 
+        todosOsLanches = await response.json();
         console.log('Dados recebidos da API:', todosOsLanches);
         filtrarPorCategoria('Burgers');
 
@@ -25,7 +25,7 @@ async function buscarLanches() {
 }
 
 function filtrarPorCategoria(categoriaDesejada) {
-    const lanchesFiltrados = todosOsLanches.filter(lanche => 
+    const lanchesFiltrados = todosOsLanches.filter(lanche =>
         lanche.categoria.toLowerCase() === categoriaDesejada.toLowerCase()
     );
     exibirLanchesNaPagina(lanchesFiltrados);
@@ -45,7 +45,7 @@ function exibirLanchesNaPagina(lanches) {
     }
 
     lanches.forEach(lanche => {
-        
+
         let pasta = '';
         let prefixo = '';
 
@@ -63,7 +63,7 @@ function exibirLanchesNaPagina(lanches) {
                 prefixo = 'vegetariano'; // Ex: vegetariano20.png
                 break;
             case 'Kids':
-                pasta = 'kids'; 
+                pasta = 'kids';
                 prefixo = 'kids'; // Ex: kids30.png
                 break;
             default:
@@ -71,18 +71,25 @@ function exibirLanchesNaPagina(lanches) {
                 prefixo = 'burger';
         }
 
-        const imageUrl = `/frontend/assets/${pasta}/${prefixo}${lanche.id}.png`;
+        const imageUrl = lanche.imagem && lanche.imagem.startsWith('http')
+        ? lanche.imagem
+        : `/frontend/assets/${pasta}/${prefixo}${lanche.id}.png`;
+
+        const descReal = lanche.descricao || "";
+        const descParaOnclick = descReal
+            .replace(/\r?\n|\r/g, ' ') 
+            .replace(/'/g, "\\'");
 
         const cardHTML = `
             <a href="#" class="product-item" 
-               onclick="selecionarLanche('${lanche.nome}', '${imageUrl}', '${lanche.preco}')"> 
+                onclick="selecionarLanche('${lanche.nome}', '${imageUrl}', '${lanche.preco}', '${descParaOnclick}')"> 
                 <div class="photo">
                     <img src="${imageUrl}" alt="${lanche.nome}" onerror="this.src='/frontend/assets/burgers/burger1.png'"/>
                 </div>
                 <div class="info">
                     <div class="product-category">${lanche.categoria}</div>
                     <div class="product-name">${lanche.nome}</div>
-                    <div class="product-description">${lanche.descricao}</div> 
+                    <div class="product-description">${descReal}</div> 
                     <div class="product-price">${Number(lanche.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</div>
                 </div>
             </a>
@@ -92,11 +99,12 @@ function exibirLanchesNaPagina(lanches) {
 }
 
 
-function selecionarLanche(nome, imagemUrl, preco) {
+function selecionarLanche(nome, imagemUrl, preco, descricao) {
     const lancheSelecionado = {
         nome: nome,
         imagem: imagemUrl,
-        preco: preco
+        preco: preco,
+        descricao: descricao
     };
 
     localStorage.setItem('lancheParaPersonalizar', JSON.stringify(lancheSelecionado));

@@ -95,6 +95,35 @@ def recuperar_senha():
             "error": str(e)
         }), 500
 
+@bd_usuario.route('/reenviar-codigo', methods=['POST'])
+def reenviar_codigo():
+    data = request.get_json()
+    email = data.get('email')
+    
+    usuario = Usuario.query.filter_by(email=email).first()
+    
+    if usuario:
+        # Gera novo código de 6 dígitos
+        novo_codigo = str(random.randint(100000, 999999))
+        usuario.otp_secret = novo_codigo
+        
+        db_serv.session.add(usuario)
+        db_serv.session.commit()
+
+        try:
+            msg = Message(
+                subject="Novo código de ativação - Code Burger",
+                recipients=[email],
+                body=f"Seu novo código é: {novo_codigo}"
+            )
+            mail.send(msg)
+            return jsonify({"mensagem": "Novo código enviado!"}), 200
+        except Exception as e:
+            print(f"Erro ao enviar reenvio: {e}")
+            return jsonify({"erro": "Falha ao enviar e-mail"}), 500
+
+
+
 @bd_usuario.route('/verificar', methods=['POST'])
 def verificar_codigo():
     data = request.get_json()

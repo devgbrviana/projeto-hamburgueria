@@ -1,7 +1,6 @@
 const API_URL = "http://localhost:5002/admin/api/admin/stats";
 const API_PRODUTOS = "http://localhost:5002/admin/api/admin/produtos";
 
-// 🔥 DASHBOARD
 async function carregarDadosDashboard() {
     try {
         const response = await fetch(API_URL);
@@ -25,7 +24,6 @@ async function carregarDadosDashboard() {
 }
 
 
-// 🔥 LISTAR PRODUTOS
 async function carregarProdutos() {
     try {
         const response = await fetch(API_PRODUTOS);
@@ -60,7 +58,6 @@ async function carregarProdutos() {
 }
 
 
-// 🔥 EXCLUIR
 async function excluir(id) {
     const confirmacao = confirm(`Tem certeza que deseja excluir o lanche #${id}?`);
     
@@ -84,8 +81,46 @@ async function excluir(id) {
     }
 }
 
+async function criar() {
+    try {
+        const nome = prompt("Nome do lanche:");
+        const descricao = prompt("Descrição do lanche:");
+        const preco = prompt("Preço (ex: 29.90):");
+        const imagem = prompt("URL da imagem (ou deixe em branco para padrão):", "https://img.icons8.com/fluency/48/hamburger.png");
 
-// 🔥 EDITAR (AGORA FUNCIONANDO)
+        if (!nome || !descricao || !preco) {
+            alert("Nome, Descrição e Preço são obrigatórios!");
+            return;
+        }
+
+        const response = await fetch(API_PRODUTOS, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nome: nome,
+                descricao: descricao,
+                preco: Number(preco),
+                imagem: imagem
+            })
+        });
+
+        if (response.ok) {
+            alert("Lanche criado com sucesso!");
+            carregarProdutos(); 
+            carregarDadosDashboard(); 
+        } else {
+            const erro = await response.json();
+            alert(`Erro: ${erro.erro || "Não foi possível criar o lanche"}`);
+        }
+
+    } catch (error) {
+        console.error("Erro ao criar lanche:", error);
+        alert("Falha na conexão com o servidor.");
+    }
+}
+
 async function editar(id) {
     try {
         const nome = prompt("Novo nome do lanche:");
@@ -123,7 +158,6 @@ async function editar(id) {
 }
 
 
-// 🚀 INIT
 window.onload = () => {
     carregarDadosDashboard();
     carregarProdutos(); 

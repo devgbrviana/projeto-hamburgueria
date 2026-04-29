@@ -51,4 +51,25 @@ document.addEventListener('DOMContentLoaded', () => {
             verifyBtn.disabled = false;
         }
     });
+
+
+    async function reenviarToken() { 
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email');
+
+        try {
+            const res = await fetch('http://127.0.0.1:5002/usuario/reenviar-codigo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email })
+            });
+            const data = await res.json();
+            alert(data.mensagem || data.erro);
+        } catch (err) {
+            console.error("Erro ao reenviar:", err);
+        }
+    }
+
+    window.reenviarToken = reenviarToken;
+
 });

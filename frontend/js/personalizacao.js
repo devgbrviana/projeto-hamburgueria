@@ -7,11 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!modoEdicaoAtivado) {
         carregarDadosDoLanche();
     }
-    
+
     inicializarContadoresExtras();
 
     const btnAdicionar = document.querySelector('.btn-add');
-    const btnSalvar = document.querySelector('.btn-save'); 
+    const btnSalvar = document.querySelector('.btn-save');
 
     if (btnAdicionar) {
         btnAdicionar.addEventListener('click', () => adicionarAoCarrinho('carrinho.html'));
@@ -62,23 +62,41 @@ function formatPrice(value) {
 
 function carregarDadosDoLanche() {
     const lancheJson = localStorage.getItem('lancheParaPersonalizar');
+
     if (lancheJson) {
         try {
             const lanche = JSON.parse(lancheJson);
-            precoBaseLanche = parseFloat(lanche.preco);
+
             document.getElementById('burger-name').textContent = lanche.nome;
             document.getElementById('burger-image').src = lanche.imagem;
-            document.getElementById('burger-image').alt = `Imagem de ${lanche.nome}`;
+
+            const elementoDescricao = document.querySelector('.produto .descricao');
+            if (elementoDescricao) {
+                elementoDescricao.textContent = lanche.descricao || "Sem descrição disponível.";
+            }
+
+            precoBaseLanche = parseFloat(lanche.preco);
+
+            document.getElementById('burger-name').textContent = lanche.nome;
+
+            const descricaoElement = document.querySelector('.produto .descricao');
+            if (descricaoElement && lanche.descricao) {
+                descricaoElement.textContent = lanche.descricao;
+            }
+
+            const imgElement = document.getElementById('burger-image');
+            imgElement.src = lanche.imagem;
+            imgElement.alt = `Imagem de ${lanche.nome}`;
+
+            imgElement.onerror = function () {
+                this.src = '/frontend/assets/burgers/burger1.png';
+            };
+
             precoTotalAtual = precoBaseLanche;
             burgerPriceElement.textContent = formatPrice(precoTotalAtual);
         } catch (error) {
             console.error("Erro ao carregar dados do lanche:", error);
         }
-    } else {
-        console.warn("Nenhum lanche encontrado no localStorage.");
-        precoBaseLanche = 0;
-        precoTotalAtual = 0;
-        burgerPriceElement.textContent = formatPrice(0);
     }
 }
 

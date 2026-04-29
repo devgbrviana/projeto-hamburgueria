@@ -5,6 +5,7 @@ from apps.extensions import db_serv
 bd_Lanche = Blueprint('Lanche', __name__)
 
 @bd_Lanche.route("/lanche", methods=["GET"])
+@bd_Lanche.route("/admin/api/admin/produtos", methods=["GET"])
 def listar_lanche():
     """
     Listar todos os lanches
@@ -38,48 +39,15 @@ def listar_lanche():
         return jsonify({"Erro": f"Erro interno do servidor: {str(e)}"}), 500
 
 
-@bd_Lanche.route("/lanche", methods=["POST"])
-def criar_lanche():
-    """
-    Criar um novo lanche
-    ---
-    tags:
-      - Lanches
-    parameters:
-      - in: body
-        name: body
-        required: true
-        schema:
-          type: object
-          properties:
-            id:
-              type: integer
-            nome:
-              type: string
-            preco:
-              type: number
-            descricao:
-              type: string
-    responses:
-      201:
-        description: Lanche criado com sucesso
-      400:
-        description: Campos obrigatórios ausentes ou id/preço inválidos
-      409:
-        description: Lanche com o mesmo ID já existe
-      500:
-        description: Erro interno do servidor
-    """
+@bd_Lanche.route("/admin/api/admin/produtos", methods=["POST"]) 
+def criar_lanche_admin():
     dados = request.get_json()
-    if not dados or 'id' not in dados or 'nome' not in dados or 'preco' not in dados:
-        return jsonify({"Erro": "Campos 'id', 'nome' e 'preco' são obrigatórios."}), 400
-
-    if Lanche.query.get(dados['id']):
-        return jsonify({"Erro": f"Lanche com ID {dados['id']} já existe."}), 409
+    
+    if not dados or 'nome' not in dados or 'preco' not in dados:
+        return jsonify({"Erro": "Nome e preço são obrigatórios."}), 400
 
     try:
         novo_lanche = Lanche(
-            id=int(dados['id']),
             nome=dados['nome'],
             preco=float(dados['preco']),
             descricao=dados.get('descricao', ''),
@@ -91,14 +59,12 @@ def criar_lanche():
         
         return jsonify({"Mensagem": "Lanche criado com sucesso!"}), 201
 
-    except ValueError:
-        return jsonify({"Erro": "Requisição inválida. 'id' e 'preco' devem ser números."}), 400
     except Exception as e:
         db_serv.session.rollback()
-        return jsonify({"Erro": f"Erro interno do servidor: {str(e)}"}), 500
+        return jsonify({"Erro": str(e)}), 500
 
 
-@bd_Lanche.route("/lanche/<int:id_lanche>", methods=["DELETE"])
+@bd_Lanche.route("/admin/api/admin/produtos/<int:id>", methods=["DELETE"])
 def deletar_lanche(id_lanche):
     """
     Deletar um lanche pelo ID

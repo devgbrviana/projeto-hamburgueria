@@ -9,13 +9,13 @@ app = Flask(__name__)
 CORS(app)
 
 # CONFIGURAÇÕES DE E-MAIL DINÂMICAS
-'''app.config['MAIL_SERVER'] = os.environ.get("MAIL_SERVER")
+app.config['MAIL_SERVER'] = os.environ.get("MAIL_SERVER")
 app.config['MAIL_PORT'] = int(os.environ.get("MAIL_PORT", 587))
 app.config['MAIL_USE_TLS'] = os.environ.get("MAIL_USE_TLS", "True") == "True"
 app.config['MAIL_USE_SSL'] = os.environ.get("MAIL_USE_SSL", "False") == "True"
 app.config['MAIL_USERNAME'] = os.environ.get("MAIL_USERNAME")
 app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get("MAIL_USERNAME")'''
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get("MAIL_USERNAME")
 
 # CONFIGURAÇÃO DO BANCO DE DADOS
 DB_USER = os.environ.get("MYSQL_USER_APP", "root")
