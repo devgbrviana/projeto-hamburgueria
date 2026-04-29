@@ -9,13 +9,15 @@ class Lanche (db_serv.Model):
     preco = db_serv.Column(db_serv.Float, nullable=False)
     descricao = db_serv.Column(db_serv.String(450), nullable=False)
     categoria = db_serv.Column(db_serv.String(50), nullable=False, default='Burgers')
+    imagem = db_serv.Column(db_serv.String(255))
     
-    def __init__(self, nome, preco, descricao,categoria="Burgers", id=None):
+    def __init__(self, nome, preco, descricao,imagem,categoria="Burgers", id=None):
         self.id = id
         self.nome = nome
         self.preco = preco
         self.descricao = descricao
         self.categoria = categoria
+        self.imagem = imagem
 
     def to_dict(self):
         return {
@@ -23,7 +25,8 @@ class Lanche (db_serv.Model):
             "nome": self.nome,
             "preco": self.preco,
             "descricao": self.descricao,
-            "categoria": self.categoria
+            "categoria": self.categoria,
+            "imagem":self.imagem
         }
 
     def atualizarLanche(self, id):
@@ -34,6 +37,7 @@ class Lanche (db_serv.Model):
             lanche.nome = self.nome
             lanche.descricao = self.descricao
             lanche.preco = self.preco
+            lanche.imagem = self.imagem
             db_serv.session.commit()
             return {"mensagem": "Lanche atualizado com sucesso!"}, 200
         except Exception as e:

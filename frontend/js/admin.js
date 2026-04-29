@@ -81,81 +81,122 @@ async function excluir(id) {
     }
 }
 
-async function criar() {
-    try {
-        const nome = prompt("Nome do lanche:");
-        const descricao = prompt("Descrição do lanche:");
-        const preco = prompt("Preço (ex: 29.90):");
-        const imagem = prompt("URL da imagem (ou deixe em branco para padrão):", "https://img.icons8.com/fluency/48/hamburger.png");
+const modal = document.getElementById("modalLanche");
+const formLanche = document.getElementById("formLanche");
 
-        if (!nome || !descricao || !preco) {
-            alert("Nome, Descrição e Preço são obrigatórios!");
-            return;
-        }
+function abrirModal(lanche = null) {
+    modal.style.display = "block";
+    formLanche.reset();
+    document.getElementById("lancheId").value = "";
 
-        const response = await fetch(API_PRODUTOS, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                nome: nome,
-                descricao: descricao,
-                preco: Number(preco),
-                imagem: imagem
-            })
-        });
-
-        if (response.ok) {
-            alert("Lanche criado com sucesso!");
-            carregarProdutos(); 
-            carregarDadosDashboard(); 
-        } else {
-            const erro = await response.json();
-            alert(`Erro: ${erro.erro || "Não foi possível criar o lanche"}`);
-        }
-
-    } catch (error) {
-        console.error("Erro ao criar lanche:", error);
-        alert("Falha na conexão com o servidor.");
+    if (lanche) {
+        document.getElementById("modalTitle").innerText = "Editar Lanche";
+        document.getElementById("lancheId").value = lanche.id;
+        document.getElementById("lancheNome").value = lanche.nome;
+        document.getElementById("lancheDescricao").value = lanche.descricao;
+        document.getElementById("lanchePreco").value = lanche.preco;
+        document.getElementById("lancheCategoria").value = lanche.categoria || "Burgers";
+        document.getElementById("lancheImagem").value = lanche.imagem || "";
+    } else {
+        document.getElementById("modalTitle").innerText = "Novo Produto";
     }
+}
+
+function fecharModal() {
+    modal.style.display = "none";
+}
+
+async function criar() {
+    abrirModal();
 }
 
 async function editar(id) {
     try {
-        const nome = prompt("Novo nome do lanche:");
-        const descricao = prompt("Nova descrição:");
-        const preco = prompt("Novo preço:");
+        const response = await fetch(`${API_PRODUTOS}/${id}`);
+        const lanche = await response.json();
+        abrirModal(lanche);
+    } catch (error) {
+        alert("Erro ao buscar dados do lanche");
+    }
+}
 
-        if (!nome || !descricao || !preco) {
-            alert("Preencha todos os campos!");
-            return;
-        }
+formLanche.onsubmit = async (e) => {
+    e.preventDefault();
 
-        const response = await fetch(`${API_PRODUTOS}/${id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                nome,
-                descricao,
-                preco: Number(preco)
-            })
+    const id = document.getElementById("lancheId").value;
+    const dados = {
+        nome: document.getElementById("lancheNome").value,
+        descricao: document.getElementById("lancheDescricao").value,
+        preco: Number(document.getElementById("lanchePreco").value),
+        categoria: document.getElementById("lancheCategoria").value,
+        imagem: document.getElementById("lancheImagem").value
+    };
+
+    const url = id ? `${API_PRODUTOS}/${id}` : API_PRODUTOS;
+    const metodo = id ? "PUT" : "POST";
+
+    try {
+        const response = await fetch(url, {
+            method: metodo,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dados)
         });
 
         if (response.ok) {
-            alert("Lanche atualizado com sucesso!");
+            fecharModal();
             carregarProdutos();
+            carregarDadosDashboard();
         } else {
-            const erro = await response.json();
-            alert(`Erro: ${erro.erro || "Erro ao atualizar"}`);
+            alert("Erro ao salvar o produto.");
         }
-
     } catch (error) {
-        console.error("Erro ao editar:", error);
+        console.error("Erro:", error);
     }
-}
+};
+
+formLanche.onsubmit = async (e) => {
+    e.preventDefault();
+
+    const id = document.getElementById("lancheId").value;
+    
+    const formData = new FormData();
+    formData.append("nome", document.getElementById("lancheNome").value);
+    formData.append("descricao", document.getElementById("lancheDescricao").value);
+    formData.append("preco", document.getElementById("lanchePreco").value);
+    formData.append("categoria", document.getElementById("lancheCategoria").value);
+
+    const inputImagem = document.getElementById("lancheImagem");
+    if (inputImagem.files[0]) {
+        formData.append("imagem", inputImagem.files[0]);
+    }
+
+    const url = id ? `${API_PRODUTOS}/${id}` : API_PRODUTOS;
+    const metodo = id ? "PUT" : "POST";
+
+    try {
+        const response = await fetch(url, {
+            method: metodo,
+            body: formData 
+        });
+
+        if (response.ok) {
+            fecharModal();
+            carregarProdutos();
+            carregarDadosDashboard();
+        } else {
+            const erroData = await response.json();
+            alert(`Erro: ${erroData.Erro || "Erro ao salvar o produto."}`);
+        }
+    } catch (error) {
+        console.error("Erro:", error);
+        alert("Falha na comunicação com o servidor.");
+    }
+};
+
+
+window.onclick = (event) => {
+    if (event.target == modal) fecharModal();
+};
 
 
 window.onload = () => {

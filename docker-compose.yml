@@ -18,10 +18,12 @@ services:
 
   api:
     build: ./backend
+    container_name: cont_api
     ports:
       - "5002:5002"
     volumes:
-      - ./backend:/app  
+      - ./frontend/assets/burgers:/app/frontend/assets/burgers
+      - ./backend:/app 
     depends_on:
       db:
         condition: service_healthy
@@ -39,4 +41,4 @@ services:
       MAIL_USE_SSL: ${MAIL_USE_SSL}
         
 volumes:
-  mysql_data:
+  mysql_data: 

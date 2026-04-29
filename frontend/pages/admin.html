@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Code Burguer</title>
     <link rel="stylesheet" href="../css/admin.css">
+    <link rel="shortcut icon" href="/frontend/logoicone/logo_codeburger.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
@@ -75,6 +76,52 @@
             </section>
         </main>
     </div>
+
+
+    <div id="modalLanche" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="fecharModal()">&times;</span>
+            <h2 id="modalTitle">Novo Lanche</h2>
+            <hr>
+            <form id="formLanche">
+                <input type="hidden" id="lancheId">
+
+                <div class="input-group">
+                    <label>Nome do Lanche</label>
+                    <input type="text" id="lancheNome" required placeholder="Ex: Bacon Burguer">
+                </div>
+
+                <div class="input-group">
+                    <label>Descrição</label>
+                    <textarea id="lancheDescricao" required placeholder="Ingredientes e detalhes..."></textarea>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Preço (R$)</label>
+                        <input type="number" step="0.01" id="lanchePreco" required placeholder="29.90">
+                    </div>
+                    <div class="input-group">
+                        <label>Categoria</label>
+                        <select id="lancheCategoria">
+                            <option value="Burgers">Burgers</option>
+                            <option value="Pizza">Pizza</option>
+                            <option value="Vegetariano">Vegetariano</option>
+                            <option value="Kids">Kids</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Imagem do Lannche</label>
+                    <input type="file" id="lancheImagem" accept="image/*">
+                </div>
+
+                <button type="submit" class="btn-save-modal">Salvar Alterações</button>
+            </form>
+        </div>
+    </div>
+
 
     <script src="../js/admin.js"></script>
 </body>
