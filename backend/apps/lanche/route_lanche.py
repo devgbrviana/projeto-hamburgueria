@@ -17,7 +17,6 @@ def allowed_file(filename):
 @bd_Lanche.route("/lanche", methods=["GET"])
 @bd_Lanche.route("/admin/api/admin/produtos", methods=["GET"])
 def listar_lanche():
-    """Lista todos os lanches para a Home e Admin."""
     try:
         lanches_query = Lanche.query.all()
         lanches_lista = [lanche.to_dict() for lanche in lanches_query]
@@ -27,8 +26,6 @@ def listar_lanche():
 
 @bd_Lanche.route("/admin/api/admin/produtos", methods=["POST"]) 
 def criar_lanche_admin():
-    """Cria um novo lanche processando o upload da imagem física."""
-   
     nome = request.form.get('nome')
     preco = request.form.get('preco')
     descricao = request.form.get('descricao', '')
@@ -43,10 +40,8 @@ def criar_lanche_admin():
 
         if arquivo and allowed_file(arquivo.filename):
             filename = secure_filename(arquivo.filename)
-            
             if not os.path.exists(destinoPasta):
                 os.makedirs(destinoPasta)
-                
             arquivo.save(os.path.join(destinoPasta, filename))
             nome_arquivo = filename
 
@@ -60,18 +55,54 @@ def criar_lanche_admin():
 
         db_serv.session.add(novo_lanche)
         db_serv.session.commit()
-        
         return jsonify({"Mensagem": "Lanche criado com sucesso!"}), 201
+    except Exception as e:
+        db_serv.session.rollback()
+        return jsonify({"Erro": str(e)}), 500
 
+@bd_Lanche.route("/admin/api/admin/produtos/<int:id>", methods=["GET"])
+def buscar_lanche(id):
+    try:
+        lanche = db_serv.session.get(Lanche, id)
+        if lanche:
+            return jsonify(lanche.to_dict()), 200
+        return jsonify({"Erro": "Lanche não encontrado"}), 404
+    except Exception as e:
+        return jsonify({"Erro": str(e)}), 500
+
+@bd_Lanche.route("/admin/api/admin/produtos/<int:id>", methods=["PUT"])
+def atualizar_lanche(id):
+    try:
+        lanche = db_serv.session.get(Lanche, id)
+        if not lanche:
+            return jsonify({"Erro": "Lanche não encontrado"}), 404
+
+        lanche.nome = request.form.get('nome', lanche.nome)
+        lanche.preco = float(request.form.get('preco', lanche.preco))
+        lanche.descricao = request.form.get('descricao', lanche.descricao)
+        lanche.categoria = request.form.get('categoria', lanche.categoria)
+
+        arquivo = request.files.get('imagem')
+        if arquivo and allowed_file(arquivo.filename):
+            if lanche.imagem and lanche.imagem != "default_burger.png":
+                caminho_antigo = os.path.join(destinoPasta, lanche.imagem)
+                if os.path.exists(caminho_antigo):
+                    os.remove(caminho_antigo)
+            
+            filename = secure_filename(arquivo.filename)
+            arquivo.save(os.path.join(destinoPasta, filename))
+            lanche.imagem = filename
+
+        db_serv.session.commit()
+        return jsonify({"Mensagem": "Lanche atualizado com sucesso!"}), 200
     except Exception as e:
         db_serv.session.rollback()
         return jsonify({"Erro": str(e)}), 500
 
 @bd_Lanche.route("/admin/api/admin/produtos/<int:id>", methods=["DELETE"])
 def deletar_lanche(id):
-    """Deleta o lanche do banco e remove o arquivo físico correspondente."""
     try:
-        lanche_para_deletar = Lanche.query.get(id)
+        lanche_para_deletar = db_serv.session.get(Lanche, id)
 
         if lanche_para_deletar is None:
             return jsonify({"Mensagem": "Lanche não encontrado."}), 404
@@ -83,9 +114,7 @@ def deletar_lanche(id):
 
         db_serv.session.delete(lanche_para_deletar)
         db_serv.session.commit()
-        
         return jsonify({"Mensagem": "Lanche deletado com sucesso!"}), 200
-
     except Exception as e:
         db_serv.session.rollback()
         return jsonify({"Erro": f"Erro interno: {str(e)}"}), 500
