@@ -24,12 +24,9 @@
             <nav>
                 <ul class="leftside">
                     <li><a href="">Início</a></li>
-                    <li><a href="">Burgers</a></li>
-                    <li><a href="">Contato</a></li>
+                    <li><a href="">Contato</a></li> 
                 </ul>
-                <div class="rightside">
-                    <a href="" class="button">Fazer pedido</a>
-                </div>
+                
                 <div class="rightside">
                     <a href="login.html" class="button">Login</a>
                 </div>
@@ -58,7 +55,7 @@
             <div class="leftside">
                 <h1>O Hamburguer mais delicioso!</h1>
                 <p>A primeira hamburgueria virtual que você faz o pedido online e come o burger através do computador.</p>
-                <a href="" class="button">Fazer pedido</a>
+                <a href="#cardapio" class="button">Fazer pedido</a>
             </div>
             <div class="rightside">
                 <img src="/frontend/assets/heroBurger.png" alt="Burger delicioso" />
@@ -66,13 +63,15 @@
         </div>
     </section>
 
-    <section class="search">
+    <section class="search" id="cardapio">
         <div class="container">
             <div class="title">Pesquise o seu<br />Hamburguer favorito!</div>
+
             <div class="sides">
                 <div class="leftside">
                     <input type="text" id="search" placeholder="Digite o nome do Burger" />
                 </div>
+
                 <div class="rightside">
                     <select onchange="filtrarPorCategoria(this.value)">
                         <option value="Burgers">Selecionar categoria</option>
@@ -111,7 +110,7 @@
                 setTimeout(() => {
                     loader.classList.add('fade-out');
                     document.body.classList.add('loaded'); 
-                }, 1500);
+                }, 550);
 
                 loader.addEventListener('transitionend', () => {
                     loader.remove();

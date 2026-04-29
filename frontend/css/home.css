@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Calistoga&family=Inter:wght@100..900&display=swap');
 
+html {
+    scroll-behavior: smooth;
+}
+
+#cardapio {
+    scroll-margin-top: 100px;
+}
 * {
     margin: 0;
     padding: 0;
@@ -203,6 +210,13 @@ header nav .button {
     padding: 15px 80px;
     border-radius: 5px;
     text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.hero .button:hover {
+    background-color: #e55a00; 
+    transform: scale(1.05);    
+    box-shadow: 0 10px 20px rgba(254, 106, 15, 0.3); 
 }
 
 .cart-icon-link {
