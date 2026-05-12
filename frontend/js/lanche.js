@@ -48,7 +48,7 @@ function exibirLanchesNaPagina(lanches) {
         if (lanche.imagem && lanche.imagem.startsWith('http')) {
             imageUrl = lanche.imagem;
         } else if (lanche.imagem) {
-            imageUrl = `/frontend/assets/burgers/${lanche.imagem}`;
+            imageUrl = `/frontend/assets/${lanche.categoria}/${lanche.imagem}`;
         } else {
             imageUrl = '/frontend/assets/burgers/burger1.png'; 
         }

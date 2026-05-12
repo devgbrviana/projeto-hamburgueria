@@ -37,22 +37,22 @@ def seed_database():
         },
         {
             "id": 10, "nome": "Pizza Pythonresa", "preco": 45.90, "categoria": "Pizza",
-            "imagem": "pizza1.png", 
+            "imagem": "pizza10.png", 
             "descricao": "Molho de tomate, mussarela, calabresa e cebola."
         },
         {
             "id": 11, "nome": "Pizza Marguerita", "preco": 42.00, "categoria": "Pizza",
-            "imagem": "pizza2.png", 
+            "imagem": "pizza11.png", 
             "descricao": "Molho de tomate, mussarela, manjericão fresco e tomate."
         },
         {
             "id": 20, "nome": "Veggie Node", "preco": 29.90, "categoria": "Vegetariano",
-            "imagem": "veggie.png", 
+            "imagem": "vegetariano20.png", 
             "descricao": "Hambúrguer de grão de bico, alface, tomate e molho de ervas."
         },
         {
             "id": 30, "nome": "Júnior Script", "preco": 19.90, "categoria": "Kids",
-            "imagem": "kids.png", 
+            "imagem": "kids30.png", 
             "descricao": "Cheeseburger pequeno, batata frita e suco de laranja."
         }
     ]
