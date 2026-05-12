@@ -236,3 +236,16 @@ nav .button:hover {
     header .container { padding: 20px; }
     nav { display: none; }
 }
+
+#editProfileForm .btn-gradient {
+    margin-top: 1rem;
+}
+
+.page-container {
+    min-height: calc(100vh - 86px); 
+}
+
+.label {
+    font-weight: 500;
+    color: var(--primary-light);
+}

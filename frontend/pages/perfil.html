@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Code Burger - Editar Perfil</title>
+    <link rel="shortcut icon" href="/frontend/logoicone/logo_codeburger.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/login_cadastro.css"> 
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html" class="logo-link">
+                    <img src="/frontend/logoicone/logo_codeburger.png" alt="Code Burger">
+                    <span class="logo-text">Code <span class="logo-dot">•</span> Burger</span>
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+
+    <div class="page-container">
+        <div class="form-wrapper">
+            <div class="header-section">
+                <h1 class="main-title">Meus Dados</h1>
+            </div>
+
+            <div class="form-card">
+                <form id="editProfileForm">
+                    <div class="input-group">
+                        <label class="label">Nome Completo</label>
+                        <input type="text" id="editNome" class="input" placeholder="Nome Completo" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="label">E-mail</label>
+                        <input type="email" id="editEmail" class="input" placeholder="E-mail" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="label">Telefone</label>
+                        <input type="text" id="editTelefone" class="input" placeholder="(11) 99999-9999" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="label">Endereço</label>
+                        <input type="text" id="editEndereco" class="input" placeholder="Rua, número, bairro" required>
+                    </div>
+
+                    <button type="submit" id="saveBtn" class="btn-gradient">Salvar Alterações</button>
+
+                    <div class="footer-links">
+                        <a href="index.html" class="link">Voltar para a página inicial</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="../js/global.js"></script>
+    <script src="../js/perfil.js"></script>
+</body>
+
+</html>

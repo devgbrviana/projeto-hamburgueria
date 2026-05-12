@@ -156,3 +156,33 @@ def verificar_codigo():
             return jsonify({"erro": "Código de verificação inválido."}), 400
     
     return jsonify({"erro": "Usuário não encontrado ou já ativado."}), 404
+
+@bd_usuario.route('/atualizar/<int:id>', methods=['PUT'])
+def atualizar_perfil(id):
+    usuario = Usuario.query.get(id)
+    
+    if not usuario:
+        return jsonify({"erro": "Usuário não encontrado"}), 404
+
+    dados = request.get_json()
+    
+    usuario.nome = dados.get('nome', usuario.nome)
+    usuario.telefone = dados.get('telefone', usuario.telefone)
+    usuario.endereco = dados.get('endereco', usuario.endereco)
+    
+    novo_email = dados.get('email')
+    if novo_email and novo_email != usuario.email:
+        email_existe = Usuario.query.filter_by(email=novo_email).first()
+        if email_existe:
+            return jsonify({"erro": "Este e-mail já está em uso por outra conta."}), 400
+        usuario.email = novo_email
+
+    try:
+        db_serv.session.commit()
+        return jsonify({
+            "mensagem": "Dados atualizados com sucesso!",
+            "usuario": usuario.to_dict()
+        }), 200
+    except Exception as e:
+        db_serv.session.rollback()
+        return jsonify({"erro": f"Erro ao atualizar: {str(e)}"}), 500
