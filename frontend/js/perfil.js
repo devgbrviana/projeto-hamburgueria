@@ -32,9 +32,15 @@ document.addEventListener("DOMContentLoaded", () => {
         })
             .then(response => response.json())
             .then(data => {
+                console.log(data)
                 if (data.usuario) {
                     localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
-                    showToast('Sucesso', 'Perfil atualizado!');
+
+                    showToast('Sucesso', data.mensagem);
+
+                    setTimeout(() => {
+                        window.location.href = "index.html";
+                    }, 2000);
                 } else {
                     showToast('Erro', data.erro);
                 }
