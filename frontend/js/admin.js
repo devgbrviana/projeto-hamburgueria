@@ -11,7 +11,7 @@ async function carregarDadosDashboard() {
 
         const dados = await response.json();
         const cards = document.querySelectorAll('.card p');
-        
+
         cards[0].innerText = `R$ ${dados.faturamento.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
         cards[1].innerText = dados.colaboradores;
         cards[2].innerText = dados.top_lanches[0]?.nome || "Nenhum";
@@ -25,17 +25,25 @@ async function carregarProdutos() {
     try {
         const response = await fetch(API_PRODUTOS);
         const produtos = await response.json();
-        
+
         const tabela = document.getElementById("lista-produtos");
         tabela.innerHTML = "";
 
         produtos.forEach(p => {
-            const urlImg = p.imagem ? `/frontend/assets/burgers/${p.imagem}` : "https://img.icons8.com/fluency/48/hamburger.png";
-            
+            let imageUrl = '';
+
+            if (p.imagem && p.imagem.startsWith('http')) {
+                imageUrl = p.imagem;
+            } else if (p.imagem) {
+                imageUrl = `/frontend/assets/${p.categoria}/${p.imagem}`;
+            } else {
+                imageUrl = '/frontend/assets/burgers/burger1.png';
+            }
+
             tabela.innerHTML += `
                 <tr>
                     <td>#${p.id}</td>
-                    <td><img src="${urlImg}" width="40" style="border-radius: 5px; object-fit: cover;"></td>
+                    <td><img src="${imageUrl}" width="40" style="border-radius: 5px; object-fit: cover;"></td>
                     <td>${p.nome}</td>
                     <td>R$ ${Number(p.preco).toFixed(2)}</td>
                     <td>
@@ -56,7 +64,7 @@ async function carregarProdutos() {
 
 function abrirModal(lanche = null) {
     modal.style.display = "block";
-    formLanche.reset(); 
+    formLanche.reset();
     document.getElementById("lancheId").value = "";
 
     if (lanche) {
@@ -66,7 +74,7 @@ function abrirModal(lanche = null) {
         document.getElementById("lancheDescricao").value = lanche.descricao;
         document.getElementById("lanchePreco").value = lanche.preco;
         document.getElementById("lancheCategoria").value = lanche.categoria || "Burgers";
-      
+
     } else {
         document.getElementById("modalTitle").innerText = "Novo Produto";
     }
@@ -92,7 +100,7 @@ formLanche.onsubmit = async (e) => {
 
     const id = document.getElementById("lancheId").value;
     const formData = new FormData();
-    
+
     formData.append("nome", document.getElementById("lancheNome").value);
     formData.append("descricao", document.getElementById("lancheDescricao").value);
     formData.append("preco", document.getElementById("lanchePreco").value);
@@ -109,7 +117,7 @@ formLanche.onsubmit = async (e) => {
     try {
         const response = await fetch(url, {
             method: metodo,
-            body: formData 
+            body: formData
         });
 
         if (response.ok) {
@@ -133,7 +141,7 @@ async function excluir(id) {
         const response = await fetch(`${API_PRODUTOS}/${id}`, { method: 'DELETE' });
         if (response.ok) {
             alert("Lanche removido!");
-            carregarProdutos(); 
+            carregarProdutos();
         }
     } catch (error) {
         console.error("Erro na deleção:", error);
@@ -144,5 +152,5 @@ window.onclick = (event) => { if (event.target == modal) fecharModal(); };
 
 window.onload = () => {
     carregarDadosDashboard();
-    carregarProdutos(); 
+    carregarProdutos();
 };
